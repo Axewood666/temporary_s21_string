@@ -23,9 +23,9 @@ test: $(s21_string_lib_name) tests.c
 	$(cc) $(flags) tests.c $(link_lib) $(check_flags) -o test
 
 $(s21_string_lib_name): s21_string.o
-	ar rc $(s21_string_lib_name) s21_string.o
+	ar rcs $(s21_string_lib_name) s21_string.o
 gcov_$(s21_string_lib_name): gcov_s21_string.o
-	ar rc $(s21_string_lib_name) gcov_s21_string.o
+	ar rcs $(s21_string_lib_name) gcov_s21_string.o
 
 s21_string.o: s21_string.c
 	$(cc) $(flags) -c s21_string.c
