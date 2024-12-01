@@ -67,3 +67,26 @@ ck_assert_ptr_eq(s21_memchr(str2, 'P', 0), memchr(str2, 'P', 0));
 
 char* str3 = "abcdef";
 ck_assert_ptr_eq(s21_memchr(str3, 'c', 6), memchr(str3, 'c', 6));
+
+
+#test s21_memcmp_test
+char* str = "0001";
+char* str2 = "0001";
+ck_assert_int_eq(s21_memcmp(str, str2, 3), memcmp(str, str2, 3));
+ck_assert_int_eq(s21_memcmp(str, str2, 4), memcmp(str, str2, 4));
+
+char* str3 = "test";
+char* str4 = "zero";
+ck_assert_int_eq(s21_memcmp(str3, str3, 0), memcmp(str3, str3, 0));
+ck_assert_int_eq(s21_memcmp(str3, str4, 4), memcmp(str3, str4, 4));
+
+char* str5 = "case";
+char* str6 = "Case";
+ck_assert_int_eq(s21_memcmp(str5, str6, 4), memcmp(str5, str6, 4));
+
+char bin1[] = {0xde, 0xad, 0xbe, 0xef};
+char bin2[] = {0xde, 0xad, 0xbe, 0xef};
+char bin3[] = {0xde, 0xad, 0xca, 0xfe};
+ck_assert_int_eq(s21_memcmp(bin1, bin2, 4), memcmp(bin1, bin2, 4));
+ck_assert_int_eq(s21_memcmp(bin1, bin3, 4), memcmp(bin1, bin3, 4));
+ck_assert_int_eq(s21_memcmp(bin2, bin3, 3), memcmp(bin2, bin3, 3));

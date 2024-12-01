@@ -13,17 +13,17 @@ char *s21_strchr(const char *str, int c) {
   if (str == s21_NULL)
     return s21_NULL;
 
-  int is_find = 0;
+  int found = 0;
   char *char_ptr = (char *)str;
 
-  while (!is_find && *char_ptr != '\0') {
+  while (!found && *char_ptr != '\0') {
     if (*char_ptr == c) {
-      is_find = 1;
+      found = 1;
     } else {
       char_ptr++;
     }
   }
-  if (!is_find) {
+  if (!found) {
     char_ptr = s21_NULL;
   }
 
@@ -50,22 +50,22 @@ char *s21_strpbrk(const char *str1, const char *str2) {
   if (str1 == s21_NULL || str2 == s21_NULL)
     return s21_NULL;
 
-  int is_find = 0;
+  int found = 0;
   char *char_str1_ptr = (char *)str1;
 
-  while (!is_find && *char_str1_ptr != '\0') {
+  while (!found && *char_str1_ptr != '\0') {
     char *char_str2_ptr = (char *)str2;
-    while (!is_find && *char_str2_ptr != '\0') {
+    while (!found && *char_str2_ptr != '\0') {
       if (*char_str1_ptr == *char_str2_ptr) {
-        is_find = 1;
+        found = 1;
       } else {
         char_str2_ptr++;
       }
     }
-    if (!is_find)
+    if (!found)
       char_str1_ptr++;
   }
-  if (!is_find) {
+  if (!found) {
     char_str1_ptr = s21_NULL;
   }
 
@@ -76,19 +76,33 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
   if (str == s21_NULL)
     return s21_NULL;
 
-  int is_find = 0;
+  int found = 0;
   char *char_ptr = (char *)str;
 
-  for (s21_size_t i = 0; !is_find && i < n; i++) {
-    if (*char_ptr == c) {
-      is_find = 1;
+  for (s21_size_t i = 0; !found && i < n; i++) {
+    if (*char_ptr == (char)c) {
+      found = 1;
     } else {
       char_ptr++;
     }
   }
-  if (!is_find) {
+  if (!found) {
     char_ptr = s21_NULL;
   }
 
   return (void *)char_ptr;
+}
+
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n){
+  if (str1 == s21_NULL || str2 == s21_NULL)
+      return -1;
+  int res = 0;
+  unsigned char* str1_ptr = (unsigned char *) str1;
+  unsigned char* str2_ptr = (unsigned char *) str2;
+  for(s21_size_t i = 0;res == 0 && i < n; i++){
+    res = *str1_ptr - *str2_ptr;
+    str1_ptr++;
+    str2_ptr++;
+  }
+  return res;
 }
