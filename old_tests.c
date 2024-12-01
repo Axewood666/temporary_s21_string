@@ -61,7 +61,6 @@ START_TEST(test_s21_strpbrk) {
 END_TEST
 
 START_TEST(test_s21_memchr) {
-    
     char* str = "l";
     ck_assert_ptr_eq(s21_memchr(str, 's', 1), memchr(str, 's', 1));
     ck_assert_ptr_eq(s21_memchr(str, 'l', 1), memchr(str, 'l', 1));
