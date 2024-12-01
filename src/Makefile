@@ -14,7 +14,6 @@ clean:
 	rm -rf gcov_report
 
 gcov_report: gcov_$(s21_string_lib_name) tests.c
-	mv *.o ./obj/
 	$(cc) $(flags) $(gcov_flags) tests.c $(link_lib) $(check_flags) -o test_with_gcov
 	./test_with_gcov
 	lcov --capture --directory . --output-file s21_string_coverage.info
