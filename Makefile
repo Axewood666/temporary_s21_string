@@ -1,7 +1,7 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-UNAME_S := $(shell uname -s)
+UNAME_S:=$(shell uname -s)
 ifeq ($(UNAME_S), Linux)
 	check_flags=-lcheck -lm -lsubunit
 endif
