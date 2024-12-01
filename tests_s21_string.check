@@ -90,3 +90,38 @@ char bin3[] = {0xde, 0xad, 0xca, 0xfe};
 ck_assert_int_eq(s21_memcmp(bin1, bin2, 4), memcmp(bin1, bin2, 4));
 ck_assert_int_eq(s21_memcmp(bin1, bin3, 4), memcmp(bin1, bin3, 4));
 ck_assert_int_eq(s21_memcmp(bin2, bin3, 3), memcmp(bin2, bin3, 3));
+
+
+#test s21_memcpy_test
+char* str = "01234";
+char str2[40];
+char str3[40];
+ck_assert_ptr_eq(s21_memcpy(str2, str, 4), memcpy(str2, str, 4));
+ck_assert_str_eq((char *)s21_memcpy(str3, str, 4),(char *)memcpy(str3, str, 4));
+
+char src[] = "Hello, World!";
+char dest1[50];
+char dest2[50];
+s21_memcpy(dest1, src, 14);
+memcpy(dest2, src, 14);
+ck_assert_str_eq(dest1, dest2);
+
+char src2[] = "Test";
+char dest3[50] = "Initial content";
+char dest4[50] = "Initial content";
+s21_memcpy(dest3, src2, 0);
+memcpy(dest4, src2, 0);
+ck_assert_str_eq(dest3, dest4);
+
+
+#test s21_memset_test
+char str1[40];
+ck_assert_ptr_eq(s21_memset(str1, 'n', 39), memset(str1, 'n', 39));
+char str2[15];
+char str3[15]; 
+s21_memset(str2, '\0', 15);
+memset(str3, '\0', 15);
+ck_assert_str_eq(str2, str3);
+
+
+
