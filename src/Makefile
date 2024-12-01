@@ -7,7 +7,7 @@ link_lib=-L. -l:$(s21_string_lib_name)
 
 rebuild: clean all
 
-all: test
+all: test gcov_report
 
 clean:
 	rm -f *.o *.a test test_with_gcov *.gcno *.gcda s21_string_coverage.info tests.c
@@ -18,6 +18,7 @@ gcov_report: s21_string.c tests.c
 	./test_with_gcov
 	lcov --capture --directory . --output-file s21_string_coverage.info
 	genhtml s21_string_coverage.info --output-directory gcov_report
+	rm -f *.gcno *.gcda s21_string_coverage.info test_with_gcov
 
 test: $(s21_string_lib_name) tests.c
 	$(cc) $(flags) tests.c $(link_lib) $(check_flags) -o test
