@@ -1,9 +1,14 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-check_flags=-lcheck -lm -lsubunit
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	check_flags=-lcheck -lm -lsubunit
+endif
+ifeq ($(UNAME_S), Darwin)
+	check_flags=-lcheck
+endif
 s21_string_lib_name=s21_string.a
-link_lib=-L. -l:$(s21_string_lib_name)
 
 rebuild: clean all
 
@@ -14,14 +19,14 @@ clean:
 	rm -rf gcov_report
 
 gcov_report: gcov_$(s21_string_lib_name) tests.c
-	$(cc) $(flags) $(gcov_flags) tests.c $(link_lib) $(check_flags) -o test_with_gcov
+	$(cc) $(flags) $(gcov_flags) tests.c -L. -l:gcov_$(s21_string_lib_name) $(check_flags) -o test_with_gcov
 	./test_with_gcov
 	lcov --capture --directory . --output-file s21_string_coverage.info
 	genhtml s21_string_coverage.info --output-directory gcov_report
 	rm -f *.gcno *.gcda s21_string_coverage.info test_with_gcov
 
 test: $(s21_string_lib_name) tests.c
-	$(cc) $(flags) tests.c $(link_lib) $(check_flags) -o test
+	$(cc) $(flags) tests.c -L. -l:$(s21_string_lib_name) $(check_flags) -o test
 
 tests.c: tests_s21_string.check
 	checkmk clean_mode=1 tests_s21_string.check > tests.c
@@ -29,7 +34,7 @@ tests.c: tests_s21_string.check
 $(s21_string_lib_name): s21_string.o
 	ar rc $(s21_string_lib_name) s21_string.o
 gcov_$(s21_string_lib_name): gcov_s21_string.o
-	ar rc $(s21_string_lib_name) gcov_s21_string.o
+	ar rc gcov_$(s21_string_lib_name) gcov_s21_string.o
 
 s21_string.o: s21_string.c
 	$(cc) $(flags) -c s21_string.c
