@@ -22,6 +22,7 @@ gcov_report: gcov_$(s21_string_lib_name).a tests.c
 	$(cc) $(flags) $(gcov_flags)  tests.c -L. -l gcov_$(s21_string_lib_name) $(check_flags) -o test_with_gcov
 	./test_with_gcov
 	lcov --rc lcov_branch_coverage=1 -d . -o s21_string_coverage.info -c
+	lcov --remove s21_string_coverage.info 'tests.c' -o s21_string_coverage.info
 	genhtml --branch-coverage s21_string_coverage.info --output-directory gcov_report
 	rm -f *.gcno *.gcda s21_string_coverage.info test_with_gcov
 
