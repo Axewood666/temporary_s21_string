@@ -1,11 +1,11 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-UNAME_S:=$(shell uname -s)
-ifeq ($(UNAME_S), Linux)
+OS_NAME:=$(shell uname -s)
+ifeq ($(OS_NAME), Linux)
 	check_flags=-lcheck -lm -lsubunit
 endif
-ifeq ($(UNAME_S), Darwin)
+ifeq ($(OS_NAME), Darwin)
 	check_flags=-lcheck
 endif
 s21_string_lib_name=s21_string

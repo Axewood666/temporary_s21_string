@@ -4,16 +4,16 @@
 
 #test s21_strlen_test
 char* str = "";
-ck_assert_uint_eq(s21_strlen(str), strlen(str));
+ck_assert_int_eq(s21_strlen(str), strlen(str));
 
 char* str1 = "Hello";
-ck_assert_uint_eq(s21_strlen(str1), strlen(str1));
+ck_assert_int_eq(s21_strlen(str1), strlen(str1));
 
 char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
-ck_assert_uint_eq(s21_strlen(str2), strlen(str2));
+ck_assert_int_eq(s21_strlen(str2), strlen(str2));
 
 char* str3 = "a";
-ck_assert_uint_eq(s21_strlen(str3), strlen(str3));
+ck_assert_int_eq(s21_strlen(str3), strlen(str3));
 
 
 #test s21_strchr_test
@@ -115,13 +115,86 @@ ck_assert_str_eq(dest3, dest4);
 
 
 #test s21_memset_test
-char str1[40];
-ck_assert_ptr_eq(s21_memset(str1, 'n', 39), memset(str1, 'n', 39));
+char str1[] = "Test function memset s21";
+ck_assert_ptr_eq(s21_memset(str1, ' ', 24), memset(str1, ' ', 24));
+
 char str2[15];
 char str3[15]; 
 s21_memset(str2, '\0', 15);
 memset(str3, '\0', 15);
 ck_assert_str_eq(str2, str3);
 
+char str4[6] = "Hello";
+char str5[6] = "Hello";
+s21_memset(str4, 'X', 5);
+memset(str5, 'X', 5);
+ck_assert_str_eq(str4, str5);
+
+char str7[100];
+char str8[100];
+s21_memset(str7, 'Y', 100);
+memset(str8, 'Y', 100);
+ck_assert_str_eq(str7, str8);
 
 
+#test s21_strncmp_test
+char* str = "0001";
+char* str2 = "0001";
+ck_assert_int_eq(s21_strncmp(str, str2, 3), strncmp(str, str2, 3));
+ck_assert_int_eq(s21_strncmp(str, str2, 4), strncmp(str, str2, 4));
+
+char* str3 = "test";
+char* str4 = "zero";
+ck_assert_int_eq(s21_strncmp(str3, str3, 0), strncmp(str3, str3, 0));
+ck_assert_int_eq(s21_strncmp(str3, str4, 4), strncmp(str3, str4, 4));
+
+char* str5 = "case";
+char* str6 = "Case";
+ck_assert_int_eq(s21_strncmp(str5, str6, 4), strncmp(str5, str6, 4));
+
+char bin1[] = {0xde, 0xad, 0xbe, 0xef};
+char bin2[] = {0xde, 0xad, 0xbe, 0xef};
+char bin3[] = {0xde, 0xad, 0xca, 0xfe};
+ck_assert_int_eq(s21_strncmp(bin1, bin2, 4), strncmp(bin1, bin2, 4));
+ck_assert_int_eq(s21_strncmp(bin1, bin3, 4), strncmp(bin1, bin3, 4));
+ck_assert_int_eq(s21_strncmp(bin2, bin3, 3), strncmp(bin2, bin3, 3));
+
+char str7[13] = "Hello!?>21.?:";
+char str8[13] = "Hello!?>21.?:";
+ck_assert_int_eq(s21_strncmp(str7, str8, 13), strncmp(str7, str8, 13));
+
+
+#test s21_strncpy_test
+char* str = "01234";
+char str2[40];
+char str3[40];
+ck_assert_ptr_eq(s21_strncpy(str2, str, 2), strncpy(str2, str, 2));
+ck_assert_str_eq(s21_strncpy(str3, str, 4),strncpy(str3, str, 4));
+
+char src[] = "Hello, World!";
+char dest1[50];
+char dest2[50];
+s21_strncpy(dest1, src, 14);
+strncpy(dest2, src, 14);
+ck_assert_str_eq(dest1, dest2);
+
+char src3[] = "Full string copy";
+char dest5[50];
+char dest6[50];
+s21_strncpy(dest5, src3, strlen(src3) + 1);
+strncpy(dest6, src3, strlen(src3) + 1);
+ck_assert_str_eq(dest5, dest6);
+
+
+#test s21_strcspn_test
+char* str = "1234567890";
+ck_assert_int_eq(s21_strcspn(str, "74567"), strcspn(str, "74567"));
+ck_assert_int_eq(s21_strcspn(str, "sadxzP"), strcspn(str, "sadxzP"));
+ck_assert_int_eq(s21_strcspn(str, "xyz"), strcspn(str, "xyz"));
+
+char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+ck_assert_int_eq(s21_strcspn(str2, "sadxzP"), strcspn(str2, "sadxzP"));
+ck_assert_int_eq(s21_strcspn(str2, "nz"), strcspn(str2, "nz"));
+
+char* str3 = "abcdef";
+ck_assert_int_eq(s21_strcspn(str3, "def"), strcspn(str3, "def"));
