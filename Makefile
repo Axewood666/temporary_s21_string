@@ -8,35 +8,45 @@ endif
 ifeq ($(OS_NAME), Darwin)
 	check_flags=-lcheck
 endif
-s21_string_lib_name=s21_string
+test_files=unit_tests.c
+files_for_report=*.gcno *.gcda  test_with_gcov libgcov_s21_string.a gcov_s21_string.o 
 
 rebuild: clean all
 
 all: test gcov_report
 
 clean:
-	rm -f *.o *.a test test_with_gcov *.gcno *.gcda s21_string_coverage.info tests.c *.gcov
-	rm -rf gcov_report
-
-gcov_report: gcov_$(s21_string_lib_name).a tests.c
-	$(cc) $(flags) $(gcov_flags)  tests.c -L. -l gcov_$(s21_string_lib_name) $(check_flags) -o test_with_gcov
-	./test_with_gcov
-	lcov --rc lcov_branch_coverage=1 -d . -o s21_string_coverage.info -c
-	genhtml --branch-coverage s21_string_coverage.info --output-directory gcov_report
-	rm -f *.gcno *.gcda s21_string_coverage.info test_with_gcov
-
-test: s21_string.a tests.c
-	$(cc) $(flags) tests.c -L. -l $(s21_string_lib_name) $(check_flags) -o test
-
-tests.c: tests_s21_string.check
-	checkmk clean_mode=1 tests_s21_string.check > tests.c
+	rm -f *.o *.a test $(files_for_report) $(test_files)
+	rm -rf report gcov_report
 
 s21_string.a: s21_string.o
-	ar rc lib$(s21_string_lib_name).a s21_string.o
-gcov_$(s21_string_lib_name).a: gcov_s21_string.o
-	ar rc libgcov_$(s21_string_lib_name).a gcov_s21_string.o
+	ar rc libs21_string.a s21_string.o
+
+test: s21_string.a $(test_files)
+	$(cc) $(flags) $(test_files) -L. -l s21_string $(check_flags) -o test
+
+gcov_report: gcov_s21_string.a $(test_files)
+	mkdir report
+	$(cc) $(flags) $(gcov_flags)  $(test_files) -L. -l gcov_s21_string $(check_flags) -o test_with_gcov
+	./test_with_gcov
+	gcovr --html-details -o ./report/report.html --exclude unit_tests.c
+	rm -f $(files_for_report)
+
+gcov_report_lcov: gcov_s21_string.a $(test_files)
+	$(cc) $(flags) $(gcov_flags)  $(test_files) -L. -l gcov_s21_string $(check_flags) -o test_with_gcov
+	./test_with_gcov
+	lcov --rc branch_coverage=1 -d . -o s21_string_coverage.info -c
+	genhtml --branch-coverage s21_string_coverage.info --output-directory gcov_report
+	rm -f s21_string_coverage.info $(files_for_report)
+
+unit_tests.c: tests_s21_string.check
+	checkmk clean_mode=1 tests_s21_string.check > unit_tests.c
+
+gcov_s21_string.a: gcov_s21_string.o
+	ar rc libgcov_s21_string.a gcov_s21_string.o
 
 s21_string.o: s21_string.c
 	$(cc) $(flags) -c s21_string.c
+
 gcov_s21_string.o: s21_string.c
 	$(cc) $(flags) $(gcov_flags) -c s21_string.c -o gcov_s21_string.o
