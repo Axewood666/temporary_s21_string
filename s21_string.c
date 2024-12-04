@@ -111,7 +111,7 @@ void *s21_memset(void *str, int c, s21_size_t n) {
   return str;
 }
 
-int s21_strncmp(const char *str1, const char *str2, s21_size_t n){
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
   int res = 0;
   for (s21_size_t i = 0; res == 0 && i < n; i++) {
     res = (int)(*str1 - *str2);
@@ -122,18 +122,18 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n){
   return res;
 }
 
-char *s21_strncpy(char *dest, const char *src, s21_size_t n){
+char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   s21_size_t i = 0;
 
-  for (;i < n && src[i] != '\0'; i++) {
+  for (; i < n && src[i] != '\0'; i++) {
     dest[i] = src[i];
   }
-  for(;i!=n;i++) dest[i] = '\0';
+  for (; i != n; i++) dest[i] = '\0';
 
   return dest;
 }
 
-s21_size_t s21_strcspn(const char *str1, const char *str2){
+s21_size_t s21_strcspn(const char *str1, const char *str2) {
   s21_size_t found = 0;
   int index = 0;
   while (!found && *str1 != '\0') {
