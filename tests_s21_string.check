@@ -184,3 +184,25 @@ ck_assert_int_eq(s21_strcspn(str2, "nz"), strcspn(str2, "nz"));
 
 char* str3 = "abcdef";
 ck_assert_int_eq(s21_strcspn(str3, "def"), strcspn(str3, "def"));
+
+#test s21_strtok_test
+char str1[] = "One,Two,Three";
+char str2[] = "One,Two,Three";
+
+ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
+ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
+ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
+ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
+
+char str3[] = ",LeadingComma,TrailingComma,";
+char str4[] = ",LeadingComma,TrailingComma,";
+for(int i = 0;i<3;i++){
+    ck_assert_str_eq(s21_strtok(str3,","),strtok(str4,","));
+}
+
+
+char str5[] = "A||B||C";
+char str6[] = "A||B||C";
+for(int i = 0;i<6;i++){
+    ck_assert_str_eq(s21_strtok(str5,","),strtok(str6,","));
+}

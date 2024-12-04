@@ -152,3 +152,26 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
   }
   return index;
 }
+
+char *s21_strtok(char *str, const char *delim){ 
+  static char *currentPos = s21_NULL; 
+  char *startToken = s21_NULL; 
+  if(str!=s21_NULL){ 
+    currentPos = str; 
+  } 
+  while(currentPos!=s21_NULL && *currentPos && s21_strchr(delim,*currentPos)){ 
+    currentPos++; 
+  } 
+  if(currentPos == s21_NULL || *currentPos == '\0'){ 
+    startToken = s21_NULL; 
+  }else{ 
+    startToken = currentPos; 
+    while(*currentPos && !s21_strchr(delim,*currentPos)){ 
+      currentPos++; 
+    } 
+    if(*currentPos){ 
+      *currentPos++ = '\0'; 
+    } 
+  } 
+  return startToken; 
+}
