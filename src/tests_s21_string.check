@@ -123,10 +123,10 @@ s21_memset(str4, 'X', 5);
 memset(str5, 'X', 5);
 ck_assert_str_eq(str4, str5);
 
-char str7[100];
-char str8[100];
-s21_memset(str7, 'Y', 100);
-memset(str8, 'Y', 100);
+char str7[100] = "XXXXXXXXXXXXXXXX";
+char str8[100] = "XXXXXXXXXXXXXXXX";
+s21_memset(str7, 'Y', 99);
+memset(str8, 'Y', 99);
 ck_assert_str_eq(str7, str8);
 
 
