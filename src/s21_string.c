@@ -175,3 +175,13 @@ char *s21_strtok(char *str, const char *delim){
   } 
   return startToken; 
 }
+
+char *s21_strncat(char *dest, const char *src, s21_size_t n){
+  
+  char *ptr = s21_strchr(dest,'\0');
+  for(s21_size_t i = 0;i<n && src[i]!='\0';i++){
+    *ptr++ = src[i];
+  }
+  *ptr = '\0';
+  return dest;
+}
