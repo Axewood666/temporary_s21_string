@@ -17,10 +17,9 @@ char *s21_strchr(const char *str, int c) {
       char_ptr++;
     }
   }
-  if (!found) {
+  if (c != '\0' && !found) {
     char_ptr = s21_NULL;
   }
-
   return char_ptr;
 }
 
@@ -34,6 +33,7 @@ char *s21_strrchr(const char *str, int c) {
     }
     char_ptr++;
   }
+  if(c == '\0' && *char_ptr == '\0') found_char_ptr = char_ptr;
   return found_char_ptr;
 }
 
@@ -179,7 +179,7 @@ char *s21_strtok(char *str, const char *delim){
 char *s21_strncat(char *dest, const char *src, s21_size_t n){
   
   char *ptr = s21_strchr(dest,'\0');
-  for(s21_size_t i = 0;i<n && src[i]!='\0';i++){
+  for(s21_size_t i = 0;i < n && src[i] != '\0';i++){
     *ptr++ = src[i];
   }
   *ptr = '\0';
