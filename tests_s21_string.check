@@ -200,9 +200,14 @@ for(int i = 0;i<3;i++){
     ck_assert_str_eq(s21_strtok(str3,","),strtok(str4,","));
 }
 
-
 char str5[] = "A||B||C";
 char str6[] = "A||B||C";
 for(int i = 0;i<6;i++){
     ck_assert_str_eq(s21_strtok(str5,","),strtok(str6,","));
 }
+
+#test s21_strncat_test
+
+char strka2[100] = "One,Two,Three";
+s21_strncat(strka2,",Four,Five",20);
+
