@@ -28,6 +28,9 @@ ck_assert_ptr_eq(s21_strchr(str2, 'z'), strchr(str2, 'z'));
 char* str3 = "abcde";
 ck_assert_ptr_eq(s21_strchr(str3, 'e'), strchr(str3, 'e'));
 
+char* str4 = "1234567890";
+ck_assert_ptr_eq(s21_strchr(str4, '\0'), strchr(str4, '\0'));
+
 #test s21_strrchr_test
 char* str = "sssssssssssls";
 ck_assert_ptr_eq(s21_strrchr(str, 's'), strrchr(str, 's'));
@@ -40,6 +43,8 @@ ck_assert_ptr_eq(s21_strrchr(str2, '\n'), strrchr(str2, '\n'));
 char* str3 = "abcde";
 ck_assert_ptr_eq(s21_strrchr(str3, 'e'), strrchr(str3, 'e'));
 
+char* str4 = "1234567890";
+ck_assert_ptr_eq(s21_strrchr(str4, '\0'), strrchr(str4, '\0'));
 
 #test s21_strpbrk_test
 char* str = "1234567890";
