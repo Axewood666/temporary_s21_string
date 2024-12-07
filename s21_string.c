@@ -2,7 +2,8 @@
 
 s21_size_t s21_strlen(const char *str) {
   s21_size_t len = 0;
-  while (str[len] != '\0') len++;
+  while (str[len] != '\0')
+    len++;
   return len;
 }
 
@@ -33,7 +34,8 @@ char *s21_strrchr(const char *str, int c) {
     }
     char_ptr++;
   }
-  if(c == '\0' && *char_ptr == '\0') found_char_ptr = char_ptr;
+  if (c == '\0' && *char_ptr == '\0')
+    found_char_ptr = char_ptr;
   return found_char_ptr;
 }
 
@@ -50,7 +52,8 @@ char *s21_strpbrk(const char *str1, const char *str2) {
         char_str2_ptr++;
       }
     }
-    if (!found) char_str1_ptr++;
+    if (!found)
+      char_str1_ptr++;
   }
   if (!found) {
     char_str1_ptr = s21_NULL;
@@ -128,7 +131,8 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   for (; i < n && src[i] != '\0'; i++) {
     dest[i] = src[i];
   }
-  for (; i != n; i++) dest[i] = '\0';
+  for (; i != n; i++)
+    dest[i] = '\0';
 
   return dest;
 }
@@ -153,35 +157,55 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
   return index;
 }
 
-char *s21_strtok(char *str, const char *delim){ 
-  static char *currentPos = s21_NULL; 
-  char *startToken = s21_NULL; 
-  if(str!=s21_NULL){ 
-    currentPos = str; 
-  } 
-  while(currentPos!=s21_NULL && *currentPos && s21_strchr(delim,*currentPos)){ 
-    currentPos++; 
-  } 
-  if(currentPos == s21_NULL || *currentPos == '\0'){ 
-    startToken = s21_NULL; 
-  }else{ 
-    startToken = currentPos; 
-    while(*currentPos && !s21_strchr(delim,*currentPos)){ 
-      currentPos++; 
-    } 
-    if(*currentPos){ 
-      *currentPos++ = '\0'; 
-    } 
-  } 
-  return startToken; 
+char *s21_strtok(char *str, const char *delim) {
+  static char *currentPos = s21_NULL;
+  char *startToken = s21_NULL;
+  if (str != s21_NULL) {
+    currentPos = str;
+  }
+  while (currentPos != s21_NULL && *currentPos &&
+         s21_strchr(delim, *currentPos)) {
+    currentPos++;
+  }
+  if (currentPos == s21_NULL || *currentPos == '\0') {
+    startToken = s21_NULL;
+  } else {
+    startToken = currentPos;
+    while (*currentPos && !s21_strchr(delim, *currentPos)) {
+      currentPos++;
+    }
+    if (*currentPos) {
+      *currentPos++ = '\0';
+    }
+  }
+  return startToken;
 }
 
-char *s21_strncat(char *dest, const char *src, s21_size_t n){
-  
-  char *ptr = s21_strchr(dest,'\0');
-  for(s21_size_t i = 0;i < n && src[i] != '\0';i++){
+char *s21_strncat(char *dest, const char *src, s21_size_t n) {
+
+  char *ptr = s21_strchr(dest, '\0');
+  for (s21_size_t i = 0; i < n && src[i] != '\0'; i++) {
     *ptr++ = src[i];
   }
   *ptr = '\0';
   return dest;
+}
+
+char *s21_strstr(const char *haystack, const char *needle) {
+  const char *ptr = haystack;
+  int isFinded = 0;
+  if (*needle != '\0') {
+
+    while ((ptr = s21_strchr(ptr, *needle)) != s21_NULL && !isFinded) {
+      if (s21_strncmp(ptr, needle, strlen(needle)) == 0) {
+        isFinded = 1;
+      } else {
+        ptr++;
+      }
+    }
+  }
+  if (!isFinded) {
+    ptr = s21_NULL;
+  }
+  return (char *)ptr;
 }
