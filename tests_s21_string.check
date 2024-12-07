@@ -198,6 +198,7 @@ ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
 ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
 ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
 ck_assert_str_eq(s21_strtok(str1,","),strtok(str2,","));
+ck_assert_ptr_eq(s21_strtok(s21_NULL,","),strtok(s21_NULL,","));
 
 char str3[] = ",LeadingComma,TrailingComma,";
 char str4[] = ",LeadingComma,TrailingComma,";
