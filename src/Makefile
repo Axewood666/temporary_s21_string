@@ -19,8 +19,8 @@ clean:
 	rm -f *.o *.a test $(files_for_report) $(test_files)
 	rm -rf report gcov_report
 
-s21_string.a: s21_string.o
-	ar rc libs21_string.a s21_string.o
+s21_string.a: s21_string.o s21_csharp_string.o
+	ar rc libs21_string.a s21_string.o s21_csharp_string.o
 
 test: s21_string.a $(test_files)
 	$(cc) $(flags) $(test_files) -L. -l s21_string $(check_flags) -o test
@@ -42,11 +42,17 @@ gcov_report_lcov: gcov_s21_string.a $(test_files)
 unit_tests.c: tests_s21_string.check
 	checkmk clean_mode=1 tests_s21_string.check > unit_tests.c
 
-gcov_s21_string.a: gcov_s21_string.o
-	ar rc libgcov_s21_string.a gcov_s21_string.o
+gcov_s21_string.a: gcov_s21_string.o gcov_s21_csharp_string.o
+	ar rc libgcov_s21_string.a gcov_s21_string.o gcov_s21_csharp_string.o
 
 s21_string.o: s21_string.c
 	$(cc) $(flags) -c s21_string.c
 
 gcov_s21_string.o: s21_string.c
 	$(cc) $(flags) $(gcov_flags) -c s21_string.c -o gcov_s21_string.o
+
+s21_csharp_string.o: s21_csharp_string.c
+	$(cc) $(flags) -c s21_csharp_string.c
+
+gcov_s21_csharp_string.o: s21_csharp_string.c
+	$(cc) $(flags) $(gcov_flags) -c s21_csharp_string.c -o gcov_s21_csharp_string.o
