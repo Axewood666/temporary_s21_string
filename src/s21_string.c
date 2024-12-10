@@ -204,8 +204,8 @@ char *s21_strstr(const char *haystack, const char *needle) {
       }
     }
   }
-  if (!isFinded) {
-    ptr = s21_NULL;
-  }
+  // if (!isFinded) {
+  //   ptr = s21_NULL;
+  // }
   return (char *)ptr;
 }
