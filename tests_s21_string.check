@@ -214,6 +214,58 @@ for(int i = 0;i<6;i++){
 
 #test s21_strncat_test
 
+char strka1[100] = "One,Two,Three";
 char strka2[100] = "One,Two,Three";
-s21_strncat(strka2,",Four,Five",20);
+ck_assert_str_eq(s21_strncat(strka1,",Four,Five",20),strncat(strka2,",Four,Five",20));
+
+char strka3[100] = "Good";
+char strka4[100] = "Good";
+ck_assert_str_eq(s21_strncat(strka3,"Morning",10),strncat(strka4,"Morning",10));
+
+strka3[0] = '\0';
+strka4[0] = '\0';
+ck_assert_str_eq(s21_strncat(strka3,"Test",2),strncat(strka4,"Test",2));
+
+#test s21_strstr_test
+
+char* haystack1 = "Hello, World!";
+char* needle1 = "World";
+ck_assert_ptr_eq(s21_strstr(haystack1, needle1), strstr(haystack1, needle1));
+
+char* haystack2 = "Test string";
+char* needle2 = "Test";
+ck_assert_ptr_eq(s21_strstr(haystack2, needle2), strstr(haystack2, needle2));
+
+char* haystack3 = "Find me at the end";
+char* needle3 = "end";
+ck_assert_ptr_eq(s21_strstr(haystack3, needle3), strstr(haystack3, needle3));
+
+char* haystack4 = "No match here";
+char* needle4 = "match!";
+ck_assert_ptr_eq(s21_strstr(haystack4, needle4), strstr(haystack4, needle4));
+
+char* haystack5 = "Any string";
+char* needle5 = "";
+ck_assert_ptr_eq(s21_strstr(haystack5, needle5), strstr(haystack5, needle5));
+
+char* haystack6 = "";
+char* needle6 = "not found";
+ck_assert_ptr_eq(s21_strstr(haystack6, needle6), strstr(haystack6, needle6));
+
+char* haystack7 = "Short";
+char* needle7 = "Longer";
+ck_assert_ptr_eq(s21_strstr(haystack7, needle7), strstr(haystack7, needle7));
+
+char* haystack8 = "abcabcabc";
+char* needle8 = "abc";
+ck_assert_ptr_eq(s21_strstr(haystack8, needle8), strstr(haystack8, needle8));
+
+char* haystack9 = "Identical";
+char* needle9 = "Identical";
+ck_assert_ptr_eq(s21_strstr(haystack9, needle9), strstr(haystack9, needle9));
+
+char* haystack10 = "This is a test";
+char* needle10 = "is a";
+ck_assert_ptr_eq(s21_strstr(haystack10, needle10), strstr(haystack10, needle10));
+
 
