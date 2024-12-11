@@ -1,10 +1,10 @@
 #include "s21_string.h"
 #include <stdlib.h>
 #include <stdio.h>
-void *insert(const char *src, const char *str, size_t start_index) {
+void *insert(const char *src, const char *str, s21_size_t start_index) {
     char *returnStr = s21_NULL;
     if (src != s21_NULL && str != s21_NULL) {
-        int lenSrc = s21_strlen(src);
+        s21_size_t lenSrc = s21_strlen(src);
         int lenStr = s21_strlen(str);
         if (start_index > lenSrc) {
             returnStr = s21_NULL;
