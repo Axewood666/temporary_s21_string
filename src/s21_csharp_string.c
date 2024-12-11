@@ -1,6 +1,6 @@
 #include "s21_string.h"
 #include <stdlib.h>
-#include <stdio.h>
+
 void *insert(const char *src, const char *str, s21_size_t start_index) {
     char *returnStr = s21_NULL;
     if (src != s21_NULL && str != s21_NULL) {
