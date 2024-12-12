@@ -193,19 +193,19 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 
 char *s21_strstr(const char *haystack, const char *needle) {
   const char *ptr = haystack;
-  int isFinded;
+  int isFinded = 0;
   if (*needle != '\0') {
-
-    while ((ptr = s21_strchr(ptr, *needle)) != s21_NULL && isFinded!=1) {
-      isFinded = 2;
+    while ((ptr = s21_strchr(ptr, *needle)) != s21_NULL && !isFinded) {
       if (s21_strncmp(ptr, needle, s21_strlen(needle)) == 0) {
         isFinded = 1;
       } else {
         ptr++;
       }
     }
+  }else{
+    isFinded = 1;
   }
-  if (isFinded==2) {
+  if (isFinded!=1) {
     ptr = s21_NULL;
   }
   return (char *)ptr;
