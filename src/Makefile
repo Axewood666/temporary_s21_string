@@ -56,3 +56,9 @@ s21_csharp_string.o: s21_csharp_string.c
 
 gcov_s21_csharp_string.o: s21_csharp_string.c
 	$(cc) $(flags) $(gcov_flags) -c s21_csharp_string.c -o gcov_s21_csharp_string.o
+
+
+sscanf:
+	gcc -Wall -Werror -Wextra -std=c11 -o test s21_sscanf.c
+	./test
+	rm test
