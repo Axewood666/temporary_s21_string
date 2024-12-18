@@ -168,6 +168,36 @@ int parse_int_base_handler(const char **buffer,void *output){
     return 1;
 }
 
+
+int parse_hex_without_prefix_handler(const char **buffer, void *output) {
+    unsigned long number = 0; // Используем unsigned long для хранения шестнадцатеричного числа
+    unsigned long *result = (unsigned long*)output;
+    while (is_hex(**buffer)) {
+        int digit;
+        char c = **buffer;
+        if (c >= '0' && c <= '9') {
+            digit = c - '0';
+        } else if (c >= 'a' && c <= 'f') {
+            digit = c - 'a' + 10;
+        } else if (c >= 'A' && c <= 'F') {
+            digit = c - 'A' + 10;
+        }
+        number = number * 16 + digit;
+        (*buffer)++;
+    }
+    *result = number;
+    return 1;
+}
+
+int parse_p_handler(const char **buffer, void *output) {
+    skip_spaces(buffer);
+    unsigned long result; // Используем unsigned long для хранения шестнадцатеричного числа
+    parse_hex_without_prefix_handler(buffer, &result);
+    void **ptr_output = (void **)output;
+    *ptr_output = (void *)result; // Приводим unsigned long к void*
+    return 1;
+}
+
 FormatHandler handlers[] = {
     {'d', parse_int_handler},
     {'f', parse_float_handler},
@@ -177,7 +207,8 @@ FormatHandler handlers[] = {
     {'o',parse_oct_handler},
     {'u',parse_int_notSign},
     {'x',parse_hex_handler},
-    {'X',parse_hex_handler}
+    {'X',parse_hex_handler},
+    {'p',parse_p_handler}
 };
 const int handler_count = sizeof(handlers) / sizeof(handlers[0]);
 
@@ -199,21 +230,23 @@ int my_sscanf(const char *buffer, const char *format, ...) {
     const char *ptr_buf = buffer;
     const char *ptr_format = format;
 
-    while (*ptr_format) {
+    while (*ptr_format && matched_count>=0) {
         if (*ptr_format == '%') {
             ptr_format++;
             char specifier = *ptr_format;
-            void *arg_ptr = va_arg(args, void *);
-            int success = parse_value(&ptr_buf, specifier, arg_ptr);
-            if (success) {
-                matched_count++;
-            } else {
-                break;
+            if (specifier == 'n') {
+                int *n_output = va_arg(args, int *);
+                *n_output = ptr_buf - buffer;
+            }else{
+                void *arg_ptr = va_arg(args, void *);
+                int success = parse_value(&ptr_buf, specifier, arg_ptr);
+                (success) ? matched_count++: matched_count * (-1);
+                
             }
             ptr_format++;
         } else {
             if (*ptr_buf != *ptr_format) {
-                break;
+                matched_count = -1;
             }
             ptr_buf++;
             ptr_format++;
@@ -224,11 +257,33 @@ int my_sscanf(const char *buffer, const char *format, ...) {
     return matched_count;
 }
 
+// int main() {
+//     int a = 0, b = 0, c = 0;
+//     void *ptr;
+//     int matched = my_sscanf("0x7ff7bc56b1e8", "%p", &ptr);
+
+//     //int matched = sscanf("0x52 0X52 0x52", "%x %X %x %n", &a, &b, &c, &count);
+//     printf("Matched: %d\n", matched);
+//     printf("a = %d, b = %d, c = %d\n", a, b, c);
+//     //printf("%d",count);
+//     //printf("%p",&a);
+//     return 0;
+// }
+
+
 int main() {
-    int a, b = 0, c = 0;
-    int matched = my_sscanf("052 0X52 0x5231", "%i %i %i", &a, &b, &c);
-    //int matched = sscanf("0x52 0X52 0x52", "%x %X %x", &a, &b, &c);
+    void *original_ptr = (void*)0x1A2B3C4D;
+    char buffer[50];
+    void *parsed_ptr;
+
+    // Test with sprintf output
+    sprintf(buffer, "%p", original_ptr);
+    printf("Input string: %s\n", buffer);
+    int matched = my_sscanf(buffer, "%p", &parsed_ptr);
     printf("Matched: %d\n", matched);
-    printf("a = %d, b = %d, c = %d\n", a, b, c);
+    printf("Parsed pointer: %p, Original pointer: %p\n", parsed_ptr, original_ptr);
+
+    // Additional test cases as described in the thought process
+
     return 0;
 }
