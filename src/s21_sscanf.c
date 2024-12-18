@@ -172,6 +172,9 @@ int parse_int_base_handler(const char **buffer,void *output){
 int parse_hex_without_prefix_handler(const char **buffer, void *output) {
     unsigned long number = 0; // Используем unsigned long для хранения шестнадцатеричного числа
     unsigned long *result = (unsigned long*)output;
+    if (**buffer == '0' && ((*buffer + 1)[0] == 'x' || (*buffer + 1)[0] == 'X')) {
+        (*buffer) += 2; 
+    }
     while (is_hex(**buffer)) {
         int digit;
         char c = **buffer;
@@ -257,19 +260,6 @@ int my_sscanf(const char *buffer, const char *format, ...) {
     return matched_count;
 }
 
-// int main() {
-//     int a = 0, b = 0, c = 0;
-//     void *ptr;
-//     int matched = my_sscanf("0x7ff7bc56b1e8", "%p", &ptr);
-
-//     //int matched = sscanf("0x52 0X52 0x52", "%x %X %x %n", &a, &b, &c, &count);
-//     printf("Matched: %d\n", matched);
-//     printf("a = %d, b = %d, c = %d\n", a, b, c);
-//     //printf("%d",count);
-//     //printf("%p",&a);
-//     return 0;
-// }
-
 
 int main() {
     void *original_ptr = (void*)0x1A2B3C4D;
@@ -282,8 +272,6 @@ int main() {
     int matched = my_sscanf(buffer, "%p", &parsed_ptr);
     printf("Matched: %d\n", matched);
     printf("Parsed pointer: %p, Original pointer: %p\n", parsed_ptr, original_ptr);
-
-    // Additional test cases as described in the thought process
 
     return 0;
 }
