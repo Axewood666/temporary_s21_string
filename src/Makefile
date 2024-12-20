@@ -1,7 +1,7 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-test_files=unit_tests.c
+test_files=unit_string_tests.c
 
 SRCS := s21_string.c s21_csharp_string.c s21_strerror.c
 OBJS := $(SRCS:.c=.o)
@@ -32,8 +32,11 @@ s21_string.a: $(OBJS)
 test: s21_string.a $(test_files)
 	$(cc) $(flags) $(test_files) s21_string.a $(check_flags) -o test
 
-unit_tests.c: tests_s21_string.check
-	checkmk clean_mode=1 tests_s21_string.check > unit_tests.c
+unit_string_tests.c: tests_s21_string.check
+	checkmk clean_mode=1 tests_s21_string.check > unit_string_tests.c
+
+unit_sprintf_tests.c: tests_s21_string.check
+	checkmk clean_mode=1 tests_s21_sprintf.check > unit_sprintf_tests.c
 
 s21_string_gcov.a: $(GCOV_OBJS)
 	ar rc s21_string_gcov.a $(GCOV_OBJS)
@@ -58,7 +61,7 @@ gcov_report: s21_string_gcov.a $(test_files)
 	mkdir report
 	$(cc) $(flags) $(gcov_flags)  $(test_files) s21_string_gcov.a $(check_flags) -o test_with_gcov
 	./test_with_gcov
-	gcovr --html-details -o ./report/report.html --exclude unit_tests.c
+	gcovr --html-details -o ./report/report.html --exclude unit_string_tests.c
 	rm -f $(files_for_report)
 
 gcov_report_lcov: s21_string_gcov.a $(test_files)

@@ -1,0 +1,6 @@
+#include <stdlib.h>
+#include "s21_string.h"
+
+#test s21_toint_test
+char* str = "";
+ck_assert_int_eq(s21_strlen(str), strlen(str));
