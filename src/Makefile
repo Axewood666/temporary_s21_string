@@ -64,6 +64,6 @@ sscanf:
 	rm test
 
 sprintf:
-	gcc -Wall -Werror -Wextra -std=c11 -o test s21_sprintf.c
+	gcc -Wall -Werror -Wextra -std=c11 -o test s21_sprintf/s21_sprintf.c
 	./test
 	rm test
