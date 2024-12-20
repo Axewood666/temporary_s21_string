@@ -6,22 +6,24 @@
 
 int s21_sprintf(char *str, char *format, ...);
 void intToStr(int num, char *str);
-int main() {
-  char buffer1[50];
-  char buffer2[50];
-  int number = 0;
-  scanf("%d", &number);
 
-  s21_sprintf(buffer1, "%d", number);
-  sprintf(buffer2, "%d", number);
+// int main() {
+//   char buffer1[50];
+//   char buffer2[50];
+//   int number = 0;
+//   scanf("%d", &number);
+//   number = 12345;
+//   s21_sprintf(buffer1, "%d", number);
+//   sprintf(buffer2, "%d", number);
 
-  printf("%s\n%s", buffer1, buffer2);
-  return 0;
-}
+//   printf("%s\n%s", buffer1, buffer2);
+//   return 0;
+// }
+
 int s21_sprintf(char *str, char *format, ...) {
   int d;
   double f;
-  va_list factor;            // указатель на необязательный параметр
+  va_list factor;  // указатель на необязательный параметр
   va_start(factor, format);  // устанавливаем указатель
 
   for (char *c = format; *c; c++) {

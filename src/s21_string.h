@@ -21,5 +21,5 @@ char *s21_strtok(char *str, const char *delim);
 char *s21_strncat(char *dest, const char *src, s21_size_t n);
 char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strerror(int errnum);
-
+int s21_sprintf(char *str, char *format, ...);
 #endif

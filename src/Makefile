@@ -1,9 +1,8 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-test_files=unit_string_tests.c
-
-SRCS := s21_string.c s21_csharp_string.c s21_strerror.c
+test_files=unit_string_tests.c unit_sprintf_tests.c
+SRCS := s21_string.c s21_csharp_string.c s21_strerror.c s21_sprintf/s21_sprintf.c
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 
@@ -30,7 +29,10 @@ s21_string.a: $(OBJS)
 	rm -f $(OBJS)
 
 test: s21_string.a $(test_files)
-	$(cc) $(flags) $(test_files) s21_string.a $(check_flags) -o test
+	$(cc) $(flags) unit_string_tests.c s21_string.a $(check_flags) -o test_s21_string
+	$(cc) $(flags) unit_sprintf_tests.c s21_string.a $(check_flags) -o test_s21_sprintf
+	./test_s21_string
+	./test_s21_sprintf
 
 unit_string_tests.c: tests_s21_string.check
 	checkmk clean_mode=1 tests_s21_string.check > unit_string_tests.c
