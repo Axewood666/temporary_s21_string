@@ -7,7 +7,7 @@ SRCS := s21_string.c s21_csharp_string.c s21_strerror.c
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 
-files_for_report=*.gcno *.gcda  test_with_gcov gcov_s21_string.a $(GCOV_OBJS)
+files_for_report=*.gcno *.gcda  test_with_gcov gcov_s21_string.a
 
 OS_NAME:=$(shell uname -s)
 ifeq ($(OS_NAME), Linux)
@@ -27,6 +27,7 @@ clean:
 
 s21_string.a: $(OBJS)
 	ar rc s21_string.a $(OBJS)
+	rm -f $(OBJS)
 
 test: s21_string.a $(test_files)
 	$(cc) $(flags) $(test_files) s21_string.a $(check_flags) -o test
@@ -36,6 +37,7 @@ unit_tests.c: tests_s21_string.check
 
 s21_string_gcov.a: $(GCOV_OBJS)
 	ar rc s21_string_gcov.a $(GCOV_OBJS)
+	rm -f $(GCOV_OBJS)
 
 %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@
@@ -48,11 +50,9 @@ sscanf:
 	./test
 	rm test
 
-sprintf:
-	gcc -Wall -Werror -Wextra -std=c11 -o test s21_sprintf/s21_sprintf.c
+sprintf: s21_string.a
+	$(cc) -o test s21_sprintf/s21_sprintf.c s21_string.a
 	./test
-	rm test
-
 
 gcov_report: s21_string_gcov.a $(test_files)
 	mkdir report
