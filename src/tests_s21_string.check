@@ -268,4 +268,9 @@ char* haystack10 = "This is a test";
 char* needle10 = "is a";
 ck_assert_ptr_eq(s21_strstr(haystack10, needle10), strstr(haystack10, needle10));
 
+#test s21_strerror_test
+for (int i = 1; i < 107; i++) {
+ ck_assert_str_eq(s21_strerror(i), strerror(i));
+}
+
 
