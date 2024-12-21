@@ -1,11 +1,15 @@
 cc=gcc
 flags=-Wall -Werror -Wextra
 gcov_flags=--coverage
-test_files=unit_string_tests.c unit_sprintf_tests.c
-SRCS := s21_string.c s21_csharp_string.c s21_strerror.c s21_sprintf/s21_sprintf.c
+string_dir=s21_string
+test_dir=tests
+sprintf_dir=s21_sprintf
+
+SRCS := $(string_dir)/s21_string.c s21_csharp_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s21_sprintf.c
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 
+test_files=$(test_dir)/unit_string_tests.c $(test_dir)/unit_sprintf_tests.c
 files_for_report=*.gcno *.gcda  test_with_gcov gcov_s21_string.a
 
 OS_NAME:=$(shell uname -s)
@@ -21,7 +25,7 @@ rebuild: clean all
 all: test gcov_report
 
 clean:
-	rm -f $(OBJS) *.a test $(files_for_report) $(test_files) $(GCOV_OBJS)
+	rm -f $(OBJS) *.a test_s21_sprintf test_s21_string $(files_for_report) $(test_files) $(GCOV_OBJS)
 	rm -rf report gcov_report
 
 s21_string.a: $(OBJS)
@@ -29,16 +33,17 @@ s21_string.a: $(OBJS)
 	rm -f $(OBJS)
 
 test: s21_string.a $(test_files)
-	$(cc) $(flags) unit_string_tests.c s21_string.a $(check_flags) -o test_s21_string
-	$(cc) $(flags) unit_sprintf_tests.c s21_string.a $(check_flags) -o test_s21_sprintf
-	./test_s21_string
-	./test_s21_sprintf
+	@echo "\n----------------Tests----------------"
+	@for test_file in $(test_files) ; do \
+		$(cc) $(flags) $$test_file s21_string.a $(check_flags) -o unit_test \
+		&& echo "\n-------------------------\nTest $$test_file" \
+		&& ./unit_test && rm -f unit_test \
+		&& echo "-------------------------\n" ; \
+		done
+	@echo "-------------------------------------\n"
 
-unit_string_tests.c: tests_s21_string.check
-	checkmk clean_mode=1 tests_s21_string.check > unit_string_tests.c
-
-unit_sprintf_tests.c: tests_s21_string.check
-	checkmk clean_mode=1 tests_s21_sprintf.check > unit_sprintf_tests.c
+$(test_dir)/%.c: $(test_dir)/%.check
+	checkmk clean_mode=1 $< > $@
 
 s21_string_gcov.a: $(GCOV_OBJS)
 	ar rc s21_string_gcov.a $(GCOV_OBJS)

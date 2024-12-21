@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "s21_string.h"
+#include "../s21_string.h"
 
 #test s21_toint_test
 char buffer1[50] = { 0 };

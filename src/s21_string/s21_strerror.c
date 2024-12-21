@@ -1,4 +1,4 @@
-#include "s21_string.h"
+#include "../s21_string.h"
 
 #ifdef __APPLE__
 #define ERRORS_COUNT 106
@@ -111,6 +111,14 @@
    "State not recoverable",                           \
    "Previous owner died",                             \
    "Interface output queue is full"}
+#else
+#define ERRORS_COUNT 106
+#define MAX_SIZE_ERROR 256
+
+#define ERRORS \
+{ "test", \
+  "test2" \
+} 
 #endif
 
 char* s21_strerror(int errnum) {
