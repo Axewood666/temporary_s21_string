@@ -20,19 +20,14 @@ ck_assert_str_eq(buffer1, buffer2);
 }
 END_TEST
 
-int main(void)
+Suite* test_sprintf(void)
 {
-    Suite *s1 = suite_create("Core");
-    TCase *tc1_1 = tcase_create("Core");
-    SRunner *sr = srunner_create(s1);
-    int nf;
+    Suite *s = suite_create("Sprintf test");
+    TCase *tc = tcase_create("Tests");
 
-    suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, s21_toint_test);
+ 
+    tcase_add_test(tc, s21_toint_test);
+    suite_add_tcase(s, tc);
 
-    srunner_run_all(sr, CK_ENV);
-    nf = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return nf == 0 ? 0 : 1;
+    return s;
 }

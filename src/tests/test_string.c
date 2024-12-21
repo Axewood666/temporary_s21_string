@@ -336,38 +336,30 @@ START_TEST(s21_strerror_test)
 for (int i = 1; i < 107; i++) {
  ck_assert_str_eq(s21_strerror(i), strerror(i));
 }
-
-
 }
 END_TEST
 
-int main(void)
+Suite* test_string(void)
 {
-    Suite *s1 = suite_create("Core");
-    TCase *tc1_1 = tcase_create("Core");
-    SRunner *sr = srunner_create(s1);
-    int nf;
-
-    suite_add_tcase(s1, tc1_1);
-    tcase_add_test(tc1_1, s21_strlen_test);
-    tcase_add_test(tc1_1, s21_strchr_test);
-    tcase_add_test(tc1_1, s21_strrchr_test);
-    tcase_add_test(tc1_1, s21_strpbrk_test);
-    tcase_add_test(tc1_1, s21_memchr_test);
-    tcase_add_test(tc1_1, s21_memcmp_test);
-    tcase_add_test(tc1_1, s21_memcpy_test);
-    tcase_add_test(tc1_1, s21_memset_test);
-    tcase_add_test(tc1_1, s21_strncmp_test);
-    tcase_add_test(tc1_1, s21_strncpy_test);
-    tcase_add_test(tc1_1, s21_strcspn_test);
-    tcase_add_test(tc1_1, s21_strtok_test);
-    tcase_add_test(tc1_1, s21_strncat_test);
-    tcase_add_test(tc1_1, s21_strstr_test);
-    tcase_add_test(tc1_1, s21_strerror_test);
-
-    srunner_run_all(sr, CK_ENV);
-    nf = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return nf == 0 ? 0 : 1;
+    Suite *s = suite_create("String functions test");
+    TCase *tc = tcase_create("Tests");
+    
+    tcase_add_test(tc, s21_strlen_test);
+    tcase_add_test(tc, s21_strchr_test);
+    tcase_add_test(tc, s21_strrchr_test);
+    tcase_add_test(tc, s21_strpbrk_test);
+    tcase_add_test(tc, s21_memchr_test);
+    tcase_add_test(tc, s21_memcmp_test);
+    tcase_add_test(tc, s21_memcpy_test);
+    tcase_add_test(tc, s21_memset_test);
+    tcase_add_test(tc, s21_strncmp_test);
+    tcase_add_test(tc, s21_strncpy_test);
+    tcase_add_test(tc, s21_strcspn_test);
+    tcase_add_test(tc, s21_strtok_test);
+    tcase_add_test(tc, s21_strncat_test);
+    tcase_add_test(tc, s21_strstr_test);
+    tcase_add_test(tc, s21_strerror_test);
+    
+    suite_add_tcase(s, tc);
+    return s;
 }
