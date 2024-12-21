@@ -2,8 +2,8 @@
 
 #ifdef __APPLE__
 
-#define ERRORS_COUNT 106
-#define MAX_SIZE_ERROR 128
+#define ERRORS_COUNT 107
+#define MAX_SIZE_ERROR 64
 #define START 1
 #define ERRORS                                        \
   {"Operation not permitted",                         \
@@ -115,8 +115,8 @@
 
 #else
 
-#define ERRORS_COUNT 135
-#define MAX_SIZE_ERROR 128
+#define ERRORS_COUNT 134
+#define MAX_SIZE_ERROR 64
 #define START 0
 #define ERRORS \
 { "Success", \
@@ -257,9 +257,9 @@
 #endif
 
 char* s21_strerror(int errnum) {
-  char errors[ERRORS_COUNT][MAX_SIZE_ERROR] = ERRORS;
+  static char errors[ERRORS_COUNT][MAX_SIZE_ERROR] = ERRORS;
   char* error;
-  if (errnum >= START && errnum <= ERRORS_COUNT) {
+  if (errnum >= START && errnum < ERRORS_COUNT) {
     error = errors[errnum - START];
   } else {
     error = "Undefined error: ";  // add numerr before :

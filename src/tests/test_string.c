@@ -333,7 +333,7 @@ END_TEST
 
 START_TEST(s21_strerror_test)
 {
-for (int i = 1; i < 107; i++) {
+for (int i = 0; i < 134; i++) {
  ck_assert_str_eq(s21_strerror(i), strerror(i));
 }
 }
