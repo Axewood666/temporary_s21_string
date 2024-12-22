@@ -86,5 +86,5 @@ sscanf:
 	rm test
 
 sprintf: s21_string.a
-	$(cc) -o test s21_sprintf/s21_sprintf.c s21_string.a
+	$(CC) $(FLAGS) -o test s21_sprintf/s21_sprintf.c s21_string.a
 	./test
