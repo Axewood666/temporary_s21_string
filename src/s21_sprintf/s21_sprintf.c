@@ -9,12 +9,83 @@ void int_to_string(int num, char *str);
 int is_number(const char *input_char);
 int is_digit(const char input_char);
 
-int main() {
-  char str1[10] = {0};
-  char gen_str[5] = "1234";
-  int res1 = sprintf(str1, "%.10s", gen_str);
-  printf("%d\n%s", res1, str1);
+typedef struct {
+    char flag[3];    
+    int width;         
+    int precision;      
+    char length;        
+    char specifier;     
+} FormatSpec;
+
+
+
+
+
+
+
+
+int parse_znach(int index,char *format_str,FormatSpec *infoSpec){
+  //парсинг флагов
+  for(++index;s21_strchr("-+ ",format_str[index]);index++){
+    (infoSpec->flag)[3-s21_strlen(s21_strchr("-+ ",format_str[index]))] = 'y';
+  }
+  //парсинг длины
+  for(;s21_strchr("0123456789",format_str[index]);index++){
+    infoSpec->width = (infoSpec->width * 10) + (format_str[index] - '0');
+  }
+  //парсинг длины после запятой
+  if(format_str[index] == '.'){
+    for(++index;s21_strchr("0123456789",format_str[index]);index++){
+      infoSpec->precision = (infoSpec->precision * 10) + (format_str[index] - '0');
+    }
+  }
+  //парсинг флагов h и l
+  for(;s21_strchr("hl",format_str[index]);index++){
+    infoSpec->length = format_str[index];
+  }
+  //парсинг спецификаторов c, d, f, s, u
+  for(;s21_strchr("cdfsu",format_str[index]);index++){
+    infoSpec->specifier = format_str[index];
+  }
+  return index;
 }
+
+
+int temp_sprintf(char *str, const char *format,...){
+  
+  va_list factor;
+  va_start(factor, format);
+  char *temp_format = (char *)calloc(s21_strlen(format), sizeof(char));
+  s21_strncpy(temp_format, format, s21_strlen(format));
+
+
+  for(int i = 0;temp_format[i]!='\0';i++){
+    if(temp_format[i] == '%'){
+      FormatSpec info = {"nnn",0,0,'n','n'};
+      i = parse_znach(i,temp_format,&info);
+      printf("%s\n%d\n%d\n%c\n%c",info.flag,info.width,info.precision,info.length,info.specifier);
+    }
+  }
+  return 1;
+}
+
+int main() {
+    const char Amirka[50] = "%10.3f вот такой длины прибор";
+    char Amir[100];
+    
+
+    temp_sprintf(Amir, Amirka, 100.564);
+    
+
+    printf("%s\n", Amir); 
+    
+    return 0;
+}
+
+
+
+
+
 
 int s21_sprintf(char *str, const char *format, ...) {
   // int d;
