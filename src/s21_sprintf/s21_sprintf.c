@@ -4,6 +4,20 @@
 
 #include "../s21_string.h"
 
+
+// Чек-лист
+// Сделать парсер ✅
+// Спецификаторы
+// Флаги
+// Ширина
+// Точность
+// Длина
+// 
+
+
+
+
+
 int s21_sprintf(char *str, const char *format, ...);
 void int_to_string(int num, char *str);
 int is_number(const char *input_char);
@@ -16,11 +30,6 @@ typedef struct {
     char length;        
     char specifier;     
 } FormatSpec;
-
-
-
-
-
 
 
 
@@ -70,11 +79,11 @@ int temp_sprintf(char *str, const char *format,...){
 }
 
 int main() {
-    const char Amirka[50] = "%10.3f вот такой длины прибор";
+    const char Amirka[50] = "%10.3f вот такойasdasdasdas %10d";
     char Amir[100];
     
 
-    temp_sprintf(Amir, Amirka, 100.564);
+    temp_sprintf(Amir, Amirka, 100.564,228);
     
 
     printf("%s\n", Amir); 
