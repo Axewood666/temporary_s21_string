@@ -72,7 +72,6 @@ int temp_sprintf(char *str, const char *format,...){
     if(temp_format[i] == '%'){
       FormatSpec info = {"nnn",0,0,'n','n'};
       i = parse_znach(i,temp_format,&info);
-      printf("%s\n%d\n%d\n%c\n%c",info.flag,info.width,info.precision,info.length,info.specifier);
     }
   }
   return 1;
@@ -91,32 +90,6 @@ int main() {
     return 0;
 }
 
-
-
-
-
-
-int s21_sprintf(char *str, const char *format, ...) {
-  // int d;
-  // double f;
-  // char *string;
-  va_list factor;
-  va_start(factor, format);
-  char *temp_format = (char *)calloc(s21_strlen(format), sizeof(char));
-  s21_strncpy(temp_format, format, s21_strlen(format));
-
-  for (char *ch = temp_format; *ch; ch++) {
-    if (*ch != '%') {
-        } else {
-    }
-  }
-  va_end(factor);
-  if (temp_format) {
-    free(temp_format);
-  }
-
-  return s21_strlen(str);
-}
 
 int is_number(const char *input_str) {
   int result = 1;
