@@ -88,3 +88,6 @@ sscanf:
 sprintf: s21_string.a
 	$(CC) $(FLAGS) -o test s21_sprintf/s21_sprintf.c s21_string.a
 	./test
+
+debug: s21_string.a
+	$(CC) $(FLAGS) -g -o test s21_sprintf/s21_sprintf.c s21_string.a
