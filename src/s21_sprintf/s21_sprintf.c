@@ -116,14 +116,18 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
       number_string[i] = ' ';
     }
   } else if (spec->width > length) {
+    
     for (int i = length; i >= 0; i--) {
       number_string[i + spec->width - length] = number_string[i];
     }
+
     s21_memset(number_string, ' ', spec->width - length);
+    length = spec->width;
+    
   }
 
   s21_strncat(buffer, number_string, length);
-  *buffer_index += s21_strlen(number_string);
+  *buffer_index += length;
 }
 
 int temp_sprintf(char *str, const char *format, ...) {
@@ -152,8 +156,12 @@ int temp_sprintf(char *str, const char *format, ...) {
 
 int main() {
   char buffer[100];
-  temp_sprintf(buffer, "Chlen vot stok .%-10d. sm", 123);
-  printf("%s", buffer);
+  char buffer1[100];
+  temp_sprintf(buffer, "Chlen vot stok .%10.2d. sm", 123);
+  sprintf(buffer1, "Chlen vot stok .%10.2d. sm", 123);
+  printf("%s\n", buffer);
+  printf("%s\n", buffer1);
+
   return 0;
 }
 
