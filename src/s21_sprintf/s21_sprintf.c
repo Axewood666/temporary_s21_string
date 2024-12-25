@@ -65,7 +65,7 @@ int parse_znach(int index,char *format_str,FormatSpec *infoSpec){
 
 void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec, va_list *args){
   int number;
-  char number_str[20];
+  char number_str[21];
 
   // получаем число
   if(spec->length == 'h'){
@@ -75,8 +75,9 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec, va_li
   }else{
     number  = va_arg(*args,int);
   }
+  
   // Преобразуем число в строку
-  int_to_string(number,number_str);
+  int_to_string(number,&number_str[1]);
   // Точность
   int len = s21_strlen(number_str);
   if(spec->precision > 0){
@@ -86,19 +87,16 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec, va_li
       for(int i = len;i>=0;i--){
         number_str[i+zeros] = number_str[i];
       }
-      for(int i = 0;i<zeros;i++){
-        number_str[i] = '0';
-      }
     }
   }
 
   // знак
   if(number < 0){
-    buffer[*(buffer_index)++] = '-';
+    number_str[0] = '-';
   }else if(spec->flag[1] == 'y'){
-    buffer[*(buffer_index)++] = '+';
+    number_str[0] = '+';
   }else if(spec->flag[2] == 'y'){
-    buffer[*(buffer_index)++] = ' ';
+    number_str[0] = ' ';
   }
 
   int padding = spec->width - len;
@@ -106,10 +104,10 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec, va_li
     if(spec->flag[0]=='y'){
 
       for(int i = 0;i<len;i++){
-        buffer[*(buffer_index)++] = number_str[i];
+        buffer[(*buffer_index)++] = number_str[i];
       }
       for(int i = 0;i<padding;i++){
-        buffer[*(buffer_index)++] = ' ';
+        buffer[(*buffer_index)++] = ' ';
       }
 
     } else{
@@ -140,11 +138,17 @@ int temp_sprintf(char *str, const char *format,...){
     if(temp_format[i] == '%'){
       FormatSpec info = {"nnn",0,-1,'n','n'};
       i = parse_znach(i,temp_format,&info);
+
       if(info.specifier == 'd'){
+        printf("YA TUT");
         handle_d_specifier(str, &buffer_index, &info, &factor);
       }
+    }else {
+        str[buffer_index++] = format[i];  // Копирование обычных символов
     }
   }
+  str[buffer_index] = '\0';  // Завершение строки
+  va_end(factor);
   return 1;
 }
 
@@ -152,8 +156,8 @@ int temp_sprintf(char *str, const char *format,...){
 
 
 int main() {
-  char buffer[50];
-  s21_sprintf(buffer, "Number: %+10d, Another: %-05d", 42, -123);
+  char buffer[100];
+  temp_sprintf(buffer, "Number: %+10d, Another: %-5d", 42, -123);
   printf("%s\n", buffer);
   return 0;
 }
