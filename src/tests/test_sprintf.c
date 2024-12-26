@@ -253,6 +253,94 @@ START_TEST(specifier_s_with_width_munis_flag) {
 }
 END_TEST
 
+START_TEST(specifier_u) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%u", 1234567890);
+  sprintf(buffer2, "%u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_width_larger_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%20u", 1234567890);
+  sprintf(buffer2, "%20u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_width_smaller_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%5u", 1234567890);
+  sprintf(buffer2, "%5u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_width_munis_flag) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%-20u", 1234567890);
+  sprintf(buffer2, "%-20u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_precision_smaller_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.5u", 1234567890);
+  sprintf(buffer2, "%.5u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_precision_larger_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.20u", 1234567890);
+  sprintf(buffer2, "%.20u", 1234567890);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_lengh_l) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%lu", 9000000000000000000);
+  sprintf(buffer2, "%lu", 9000000000000000000);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_u_with_lengh_h) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%hu", 12345);
+  sprintf(buffer2, "%hu", 12345);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
 Suite *test_sprintf(void) {
   Suite *s = suite_create("Sprintf test");
   TCase *tc = tcase_create("Tests");
@@ -281,6 +369,15 @@ Suite *test_sprintf(void) {
   tcase_add_test(tc, specifier_s_with_width_larger_than_length);
   tcase_add_test(tc, specifier_s_with_width_smaller_than_length);
   tcase_add_test(tc, specifier_s_with_width_munis_flag);
+
+  tcase_add_test(tc, specifier_u);
+  tcase_add_test(tc, specifier_u_with_width_larger_than_length);
+  tcase_add_test(tc, specifier_u_with_width_smaller_than_length);
+  tcase_add_test(tc, specifier_u_with_width_munis_flag);
+  tcase_add_test(tc, specifier_u_with_precision_smaller_than_length);
+  tcase_add_test(tc, specifier_u_with_precision_larger_than_length);
+  tcase_add_test(tc, specifier_u_with_lengh_l);
+  tcase_add_test(tc, specifier_u_with_lengh_h);
   suite_add_tcase(s, tc);
 
   return s;

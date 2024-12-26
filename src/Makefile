@@ -5,11 +5,11 @@ string_dir=s21_string
 test_dir=tests
 sprintf_dir=s21_sprintf
 
-SRCS := $(string_dir)/s21_string.c s21_csharp_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s21_sprintf.c
+SRCS := $(string_dir)/s21_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s21_sprintf.c
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 
-test_files=$(test_dir)/test_string.c $(test_dir)/test_sprintf.c
+test_files=$(test_dir)/test_string.c $(test_dir)/test_sprintf.c $(test_dir)/test_csharp.c
 TEST_OBJS := $(test_files:.c=.o)
 files_for_report=*.gcno *.gcda */*.gcno */*.gcda test_with_gcov s21_string_gcov.a
 
@@ -91,3 +91,7 @@ sprintf: s21_string.a
 
 debug: s21_string.a
 	$(CC) $(FLAGS) -g -o test s21_sprintf/s21_sprintf.c s21_string.a
+
+cs: s21_string.a
+	$(CC) $(FLAGS) -o test s21_csharp/s21_csharp_string.c s21_string.a
+	./test

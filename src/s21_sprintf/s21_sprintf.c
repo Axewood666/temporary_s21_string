@@ -15,7 +15,9 @@ int s21_sprintf(char *str, const char *format, ...) {
       if (info.specifier == 'd') {
         handle_d_specifier(str, &buffer_index, &info, &factor);
       } else if (info.specifier == 'c') {
+      } else if (info.specifier == 'c') {
         handle_c_specifier(str, &buffer_index, &info, &factor);
+      } else if (info.specifier == 's') {
       } else if (info.specifier == 's') {
         handle_s_specifier(str, &buffer_index, &info, &factor);
       }else if (info.specifier == 'f') {
@@ -25,10 +27,10 @@ int s21_sprintf(char *str, const char *format, ...) {
       }
 
     } else {
-      str[buffer_index++] = format[i];  // Копирование обычных символов
+      str[buffer_index++] = format[i];
     }
   }
-  str[buffer_index] = '\0';  // Завершение строки
+  str[buffer_index] = '\0';
   va_end(factor);
   return 1;
 }
@@ -133,6 +135,38 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
 
   // Обработка флагов
   flags_handling_int_specifiers(number_string, number, &length, spec->flag);
+
+  // Обработка ширины
+  width_handling_int_specifiers(number_string, &length, spec->width,
+                                spec->flag[0]);
+
+  s21_strncat(buffer, number_string, length);
+  *buffer_index += length;
+}
+
+void handle_u_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args) {
+  unsigned int number;
+  unsigned long int long_number;
+  unsigned short int short_number;
+  char number_string[1024] = {0};
+
+  // Обработка длины
+  if (spec->length == 'l') {
+    long_number = va_arg(*args, unsigned long int);
+    long_int_to_string_unsign(long_number, number_string);
+  } else if (spec->length == 'h') {
+    short_number = (short)va_arg(*args, unsigned int);
+    short_int_to_string_unsign(short_number, number_string);
+  } else {
+    number = va_arg(*args, unsigned int);
+    int_to_string_unsign(number, number_string);
+  }
+
+  int length = s21_strlen(number_string);
+
+  // Обработка точности
+  precision_handling_int_specifiers(number_string, &length, spec->precision);
 
   // Обработка ширины
   width_handling_int_specifiers(number_string, &length, spec->width,
