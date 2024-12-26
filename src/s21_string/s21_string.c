@@ -2,8 +2,7 @@
 
 s21_size_t s21_strlen(const char *str) {
   s21_size_t len = 0;
-  while (str[len] != '\0')
-    len++;
+  while (str[len] != '\0') len++;
   return len;
 }
 
@@ -34,8 +33,7 @@ char *s21_strrchr(const char *str, int c) {
     }
     char_ptr++;
   }
-  if (c == '\0')
-    found_char_ptr = char_ptr;
+  if (c == '\0') found_char_ptr = char_ptr;
   return found_char_ptr;
 }
 
@@ -52,8 +50,7 @@ char *s21_strpbrk(const char *str1, const char *str2) {
         char_str2_ptr++;
       }
     }
-    if (!found)
-      char_str1_ptr++;
+    if (!found) char_str1_ptr++;
   }
   if (!found) {
     char_str1_ptr = s21_NULL;
@@ -131,8 +128,7 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
   for (; i < n && src[i] != '\0'; i++) {
     dest[i] = src[i];
   }
-  for (; i != n; i++)
-    dest[i] = '\0';
+  for (; i != n; i++) dest[i] = '\0';
 
   return dest;
 }
@@ -182,7 +178,6 @@ char *s21_strtok(char *str, const char *delim) {
 }
 
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
-
   char *ptr = s21_strchr(dest, '\0');
   for (s21_size_t i = 0; i < n && src[i] != '\0'; i++) {
     *ptr++ = src[i];
@@ -202,10 +197,10 @@ char *s21_strstr(const char *haystack, const char *needle) {
         ptr++;
       }
     }
-  }else{
+  } else {
     isFinded = 1;
   }
-  if (isFinded!=1) {
+  if (isFinded != 1) {
     ptr = s21_NULL;
   }
   return (char *)ptr;
