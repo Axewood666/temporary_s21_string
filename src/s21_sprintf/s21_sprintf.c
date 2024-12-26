@@ -18,9 +18,11 @@ int s21_sprintf(char *str, const char *format, ...) {
       } else if (info.specifier == 's') {
         handle_s_specifier(str, &buffer_index, &info, &factor);
       } else if (info.specifier == 'f') {
+        handle_f_specifier(str, &buffer_index, &info, &factor);
       } else if (info.specifier == 'u') {
         handle_u_specifier(str, &buffer_index, &info, &factor);
       }
+
     } else {
       str[buffer_index++] = format[i];
     }
@@ -56,7 +58,23 @@ int parse_formatting(int index, char *format_str, FormatSpec *infoSpec) {
   if (s21_strchr("cdfsu", format_str[index])) {
     infoSpec->specifier = format_str[index];
   }
+
+  if (infoSpec->specifier == 'f' && infoSpec->precision == -1) {
+    infoSpec->precision = 6;
+  }
   return index;
+}
+
+void handle_f_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args) {
+  char number_str[100];
+  double number = va_arg(*args, double);
+  int length = float_to_string(number, number_str, spec->precision);
+  flags_handling_int_specifiers(number_str, number, &length, spec->flag);
+  width_handling_int_specifiers(number_str, &length, spec->width,
+                                spec->flag[0]);
+  s21_strncat(buffer, number_str, length);
+  *buffer_index += length;
 }
 
 void handle_c_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
@@ -205,6 +223,42 @@ void width_handling_int_specifiers(char *number_string, int *length, int width,
   }
 }
 
+int float_to_string(double number, char *str, int precision) {
+
+  int i = 0;
+  if(number<0)number*=-1;
+  number = round_to_precision(number,precision);
+  int int_part = (int)number;
+  double fractional_part = number - int_part;
+  char buffer_int_part[21];
+  
+  if (int_part == 0) {
+    buffer_int_part[i++] = '0';
+  } else {
+    while (int_part > 0) {
+      buffer_int_part[i++] = (int_part % 10) + '0';
+      int_part /= 10;
+    }
+  }
+  if (number<0){
+    buffer_int_part[i++] = '-';
+  }
+  for (int j = i - 1; j >= 0; j--) {
+    *str++ = buffer_int_part[j];
+  }
+  if (precision > 0) {
+    *str++ = '.';
+    i++;
+    for (int j = 0; j < precision; j++, i++) {
+      fractional_part *= 10;
+      int frac_digit = (int)fractional_part;
+      *str++ = frac_digit + '0';
+      fractional_part -= frac_digit;
+    }
+  }
+  return i;
+}
+
 void int_to_string_unsign(int num, char *str) {
   int i = 0;
 
@@ -272,4 +326,9 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[j] = str[k];
     str[k] = temp;
   }
+}
+
+double round_to_precision(double number, int precision) {
+    double factor = pow(10, precision);
+    return round(number * factor) / factor;
 }

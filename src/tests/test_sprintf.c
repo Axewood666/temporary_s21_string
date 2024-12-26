@@ -341,11 +341,122 @@ START_TEST(specifier_u_with_lengh_h) {
 }
 END_TEST
 
+START_TEST(specifier_f) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%f", 123.456789);
+  sprintf(buffer2, "%f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_width_larger_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%20f", 123.456789);
+  sprintf(buffer2, "%20f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_width_smaller_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%5f", 123.456789);
+  sprintf(buffer2, "%5f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_width_munis_flag) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%-20f", 123.456789);
+  sprintf(buffer2, "%-20f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_precision_smaller_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.f", 123.656789);
+  sprintf(buffer2, "%.f", 123.656789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_precision_larger_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.20f", 123.456789);
+  sprintf(buffer2, "%.20f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_flag_plus_positive_number) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%+f", 123.456789);
+  sprintf(buffer2, "%+f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_flag_plus_negative_number) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%+f", -123.456789);
+  sprintf(buffer2, "%+f", -123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_flag_space_positive_number) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "% f", 123.456789);
+  sprintf(buffer2, "% f", 123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_f_with_flag_space_negative_number) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "% f", -123.456789);
+  sprintf(buffer2, "% f", -123.456789);
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
 Suite *test_sprintf(void) {
   Suite *s = suite_create("Sprintf test");
   TCase *tc = tcase_create("Tests");
 
   tcase_add_test(tc, string_without_format_test);
+
   tcase_add_test(tc, specifier_d);
   tcase_add_test(tc, specifier_d_with_width_larger_than_length);
   tcase_add_test(tc, specifier_d_with_width_smaller_than_length);
@@ -378,6 +489,18 @@ Suite *test_sprintf(void) {
   tcase_add_test(tc, specifier_u_with_precision_larger_than_length);
   tcase_add_test(tc, specifier_u_with_lengh_l);
   tcase_add_test(tc, specifier_u_with_lengh_h);
+
+  tcase_add_test(tc, specifier_f);
+  tcase_add_test(tc, specifier_f_with_width_larger_than_length);
+  tcase_add_test(tc, specifier_f_with_width_smaller_than_length);
+  tcase_add_test(tc, specifier_f_with_width_munis_flag);
+  tcase_add_test(tc, specifier_f_with_precision_smaller_than_length);
+  tcase_add_test(tc, specifier_f_with_precision_larger_than_length);
+  tcase_add_test(tc, specifier_f_with_flag_plus_positive_number);
+  tcase_add_test(tc, specifier_f_with_flag_plus_negative_number);
+  tcase_add_test(tc, specifier_f_with_flag_space_positive_number);
+  tcase_add_test(tc, specifier_f_with_flag_space_negative_number);
+
   suite_add_tcase(s, tc);
 
   return s;
