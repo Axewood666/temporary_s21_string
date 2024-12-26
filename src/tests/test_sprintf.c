@@ -136,8 +136,8 @@ START_TEST(specifier_d_with_lengh_l) {
   char buffer1[STRING_LENGTH + 1] = {0};
   char buffer2[STRING_LENGTH + 1] = {0};
 
-  s21_sprintf(buffer1, "%ld", 1234567890);
-  sprintf(buffer2, "%ld", 1234567890);
+  s21_sprintf(buffer1, "%ld", 9000000000000000000);
+  sprintf(buffer2, "%ld", 9000000000000000000);
 
   ck_assert_str_eq(buffer1, buffer2);
 }
@@ -187,6 +187,72 @@ START_TEST(specifier_c_with_width_flag_minus) {
 }
 END_TEST
 
+START_TEST(specifier_s) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%s", "Hello, world!");
+  sprintf(buffer2, "%s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_s_with_precision_smaller_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.5s", "Hello, world!");
+  sprintf(buffer2, "%.5s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_s_with_precision_larger_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%.20s", "Hello, world!");
+  sprintf(buffer2, "%.20s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_s_with_width_larger_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%20s", "Hello, world!");
+  sprintf(buffer2, "%20s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_s_with_width_smaller_than_length) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%5s", "Hello, world!");
+  sprintf(buffer2, "%5s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
+START_TEST(specifier_s_with_width_munis_flag) {
+  char buffer1[STRING_LENGTH + 1] = {0};
+  char buffer2[STRING_LENGTH + 1] = {0};
+
+  s21_sprintf(buffer1, "%-20s", "Hello, world!");
+  sprintf(buffer2, "%-20s", "Hello, world!");
+
+  ck_assert_str_eq(buffer1, buffer2);
+}
+END_TEST
+
 Suite *test_sprintf(void) {
   Suite *s = suite_create("Sprintf test");
   TCase *tc = tcase_create("Tests");
@@ -209,6 +275,12 @@ Suite *test_sprintf(void) {
   tcase_add_test(tc, specifier_c_with_width);
   tcase_add_test(tc, specifier_c_with_width_flag_minus);
 
+  tcase_add_test(tc, specifier_s);
+  tcase_add_test(tc, specifier_s_with_precision_smaller_length);
+  tcase_add_test(tc, specifier_s_with_precision_larger_length);
+  tcase_add_test(tc, specifier_s_with_width_larger_than_length);
+  tcase_add_test(tc, specifier_s_with_width_smaller_than_length);
+  tcase_add_test(tc, specifier_s_with_width_munis_flag);
   suite_add_tcase(s, tc);
 
   return s;

@@ -29,7 +29,3 @@ void flags_handling_int_specifiers(char *number_string, int number, int *length,
                                    char *flags);
 void width_handling_int_specifiers(char *number_string, int *length, int width,
                                    char flag);
-
-// Trash
-int is_number(const char *input_str);
-int is_digit(const char c);

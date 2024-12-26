@@ -1,15 +1,5 @@
 #include "s21_sprintf.h"
 
-int main() {
-  char buffer[100];
-  char buffer1[100];
-  s21_sprintf(buffer, ".%-10.2s. вообще крутой поцык", "Amir");
-  sprintf(buffer1, ".%-10.2s. вообще крутой поцык", "Amir");
-  printf("%s\n", buffer);
-  printf("%s\n", buffer1);
-  return 0;
-}
-
 int s21_sprintf(char *str, const char *format, ...) {
   va_list factor;
   va_start(factor, format);
@@ -88,7 +78,6 @@ void handle_s_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
     length = spec->precision;
   }
   s21_strncpy(buffer_for_str, str, length);
-  precision_handling_int_specifiers(buffer_for_str, &length, spec->precision);
   width_handling_int_specifiers(buffer_for_str, &length, spec->width,
                                 spec->flag[0]);
   s21_strncat(buffer, buffer_for_str, length);
@@ -250,20 +239,4 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[j] = str[k];
     str[k] = temp;
   }
-}
-
-int is_number(const char *input_str) {
-  int result = 1;
-  s21_size_t i = 0;
-  if (*input_str == '-') {
-    i++;
-  }
-  for (; i < s21_strlen(input_str); i++) {
-    result = is_digit(input_str[i]);
-  }
-  return result;
-}
-
-int is_digit(const char input_char) {
-  return (input_char >= '0' && input_char <= '9');
 }
