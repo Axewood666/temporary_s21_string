@@ -1,14 +1,14 @@
 #include "s21_sprintf.h"
 
-// int main() {
-//   char buffer[100];
-//   char buffer1[100];
-//   s21_sprintf(buffer, "Chlen vot stok .%+10.2d. sm", 123);
-//   sprintf(buffer1, "Chlen vot stok .%+10.2d. sm", 123);
-//   printf("%s\n", buffer);
-//   printf("%s\n", buffer1);
-//   return 0;
-// }
+int main() {
+  char buffer[100];
+  char buffer1[100];
+  s21_sprintf(buffer, ".%-10.2s. вообще крутой поцык", "Amir");
+  sprintf(buffer1,".%-10.2s. вообще крутой поцык", "Amir");
+  printf("%s\n", buffer);
+  printf("%s\n", buffer1);
+  return 0;
+}
 
 int s21_sprintf(char *str, const char *format, ...) {
   va_list factor;
@@ -26,6 +26,9 @@ int s21_sprintf(char *str, const char *format, ...) {
       }
       if (info.specifier == 'c') {
         handle_c_specifier(str, &buffer_index, &info, &factor);
+      }
+      if (info.specifier == 's') {
+        handle_s_specifier(str, &buffer_index, &info, &factor);
       }
     } else {
       str[buffer_index++] = format[i];  // Копирование обычных символов
@@ -75,6 +78,22 @@ void handle_c_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
   s21_strncat(buffer, symbol, length);
   *buffer_index += length;
 }
+
+void handle_s_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args){
+  char *str = va_arg(*args,char*);
+  char buffer_for_str[1024];
+  int length = s21_strlen(str);
+  if (spec->precision >= 0 && spec->precision < length) {
+    length = spec->precision; 
+  }
+  s21_strncpy(buffer_for_str,str,length);
+  precision_handling_int_specifiers(buffer_for_str, &length, spec->precision);
+  width_handling_int_specifiers(buffer_for_str, &length, spec->width, spec->flag[0]);
+  s21_strncat(buffer, buffer_for_str, length);
+  *buffer_index += length;
+}
+
 
 void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
                         va_list *args) {
