@@ -1,7 +1,7 @@
+#include <stdio.h>
+
 #include "../s21_string.h"
-
 #ifdef __APPLE__
-
 #define ERRORS_COUNT 107
 #define MAX_SIZE_ERROR 64
 #define START 1
@@ -114,7 +114,6 @@
    "Interface output queue is full"}
 
 #else
-
 #define ERRORS_COUNT 134
 #define MAX_SIZE_ERROR 64
 #define START 0
@@ -259,11 +258,15 @@
 
 char* s21_strerror(int errnum) {
   static char errors[ERRORS_COUNT][MAX_SIZE_ERROR] = ERRORS;
+  static char undef_error[MAX_SIZE_ERROR];
   char* error;
   if (errnum >= START && errnum < ERRORS_COUNT) {
     error = errors[errnum - START];
   } else {
-    error = "Undefined error: ";  // add numerr before :
+    s21_sprintf(undef_error,
+                errnum == 0 ? "Undefined error: %d" : "Unknown error: %d",
+                errnum);
+    error = undef_error;
   }
   return error;
 }

@@ -56,7 +56,7 @@ gcov: s21_string_gcov.a $(TEST_OBJS)
 s21_string_gcov.a: $(GCOV_OBJS)
 	ar rc s21_string_gcov.a $(GCOV_OBJS)
 	rm -f $(GCOV_OBJS)
-
+ 
 gcovr_report: gcov
 	rm -rf report
 	mkdir report
@@ -78,21 +78,7 @@ lcov_report: gcov
 
 $(test_dir)/%.o: $(test_dir)/%.c
 	$(CC) $(FLAGS) -c $< -o $@
-#---------------
+#--------------- 
 
-#trash
-sscanf:
-	gcc -Wall -Werror -Wextra -std=c11 -o test s21_sscanf.c
-	./test
-	rm test
-
-sprintf: s21_string.a
-	$(CC) $(FLAGS) -o test s21_sprintf/s21_sprintf.c s21_string.a
-	./test
-
-debug: s21_string.a
-	$(CC) $(FLAGS) -g -o test s21_sprintf/s21_sprintf.c s21_string.a
-
-cs: s21_string.a
-	$(CC) $(FLAGS) -o test s21_csharp/s21_csharp_string.c s21_string.a
-	./test
+s21_strerror: $(string_dir)/s21_strerror.c
+	gcc -g $(string_dir)/s21_strerror.c -o test

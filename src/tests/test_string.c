@@ -298,7 +298,7 @@ START_TEST(s21_strstr_test) {
 END_TEST
 
 START_TEST(s21_strerror_test) {
-  for (int i = 0; i < 134; i++) {
+  for (int i = -1; i < 140; i++) {
     ck_assert_str_eq(s21_strerror(i), strerror(i));
   }
 }
@@ -322,7 +322,7 @@ Suite* test_string(void) {
   tcase_add_test(tc, s21_strtok_test);
   tcase_add_test(tc, s21_strncat_test);
   tcase_add_test(tc, s21_strstr_test);
-  // tcase_add_test(tc, s21_strerror_test);
+  tcase_add_test(tc, s21_strerror_test);
 
   suite_add_tcase(s, tc);
   return s;

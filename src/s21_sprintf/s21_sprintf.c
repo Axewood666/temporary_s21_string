@@ -108,7 +108,7 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
   int number;
   long int long_number;
   short int short_number;
-  char number_string[1024] = {0};
+  char number_string[NUMBER_SIZE] = {0};
 
   // Обработка длины
   if (spec->length == 'l') {
@@ -143,7 +143,7 @@ void handle_u_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
   unsigned int number;
   unsigned long int long_number;
   unsigned short int short_number;
-  char number_string[1024] = {0};
+  char number_string[NUMBER_SIZE] = {0};
 
   // Обработка длины
   if (spec->length == 'l') {
@@ -224,14 +224,13 @@ void width_handling_int_specifiers(char *number_string, int *length, int width,
 }
 
 int float_to_string(double number, char *str, int precision) {
-
   int i = 0;
-  if(number<0)number*=-1;
-  number = round_to_precision(number,precision);
+  if (number < 0) number *= -1;
+  number = round_to_precision(number, precision);
   int int_part = (int)number;
   double fractional_part = number - int_part;
-  char buffer_int_part[21];
-  
+  char buffer_int_part[INT_SIZE];
+
   if (int_part == 0) {
     buffer_int_part[i++] = '0';
   } else {
@@ -240,7 +239,7 @@ int float_to_string(double number, char *str, int precision) {
       int_part /= 10;
     }
   }
-  if (number<0){
+  if (number < 0) {
     buffer_int_part[i++] = '-';
   }
   for (int j = i - 1; j >= 0; j--) {
@@ -329,6 +328,6 @@ void short_int_to_string_unsign(short int num, char *str) {
 }
 
 double round_to_precision(double number, int precision) {
-    double factor = pow(10, precision);
-    return round(number * factor) / factor;
+  double factor = pow(10, precision);
+  return round(number * factor) / factor;
 }
