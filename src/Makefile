@@ -4,8 +4,9 @@ gcov_flags=--coverage
 string_dir=s21_string
 test_dir=tests
 sprintf_dir=s21_sprintf
+csharp_dir=s21_csharp
 
-SRCS := $(string_dir)/s21_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s21_sprintf.c
+SRCS := $(string_dir)/s21_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s21_sprintf.c  $(csharp_dir)/s21_csharp.c
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 

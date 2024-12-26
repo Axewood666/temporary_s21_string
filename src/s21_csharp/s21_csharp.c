@@ -1,4 +1,4 @@
-#include "s21_csharp_string.h"
+#include "s21_csharp.h"
 
 void *insert(const char *src, const char *str, s21_size_t start_index) {
   char *returnStr = s21_NULL;
