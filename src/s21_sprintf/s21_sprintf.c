@@ -1,14 +1,14 @@
 #include "s21_sprintf.h"
 
-// int main() {
-//   char buffer[100];
-//   char buffer1[100];
-//   s21_sprintf(buffer, "Chlen vot stok .%+10.2d. sm", 123);
-//   sprintf(buffer1, "Chlen vot stok .%+10.2d. sm", 123);
-//   printf("%s\n", buffer);
-//   printf("%s\n", buffer1);
-//   return 0;
-// }
+int main() {
+  char buffer[100];
+  char buffer1[1050];
+  s21_sprintf(buffer, "%10cmir", 'A');
+  sprintf(buffer1, "%10cmir", 'A');
+  printf("%s\n", buffer);
+  printf("%s\n", buffer1);
+  return 0;
+}
 
 int s21_sprintf(char *str, const char *format, ...) {
   va_list factor;
