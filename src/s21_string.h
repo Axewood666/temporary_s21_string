@@ -22,4 +22,8 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n);
 char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strerror(int errnum);
 int s21_sprintf(char *str, const char *format, ...);
+void *insert(const char *src, const char *str, s21_size_t start_index);
+void *trim(const char *src, const char *trim_chars);
+void *to_upper(const char *str);
+void *to_lower(const char *str);
 #endif

@@ -61,7 +61,7 @@ void *to_upper(const char *str) {
   if (str != s21_NULL) {
     s21_size_t len = s21_strlen(str);
     returnStr = calloc(len + 1, sizeof(char));
-    if (returnStr != NULL) {
+    if (returnStr != s21_NULL) {
       for (s21_size_t i = 0; i < len; i++) {
         returnStr[i] = (str[i] >= 'a' && str[i] <= 'z') ? str[i] - 32 : str[i];
       }
@@ -76,7 +76,7 @@ void *to_lower(const char *str) {
   if (str != s21_NULL) {
     s21_size_t len = s21_strlen(str);
     returnStr = calloc(len + 1, sizeof(char));
-    if (returnStr != NULL) {
+    if (returnStr != s21_NULL) {
       for (s21_size_t i = 0; i < len; i++) {
         returnStr[i] = (str[i] >= 'A' && str[i] <= 'Z') ? str[i] + 32 : str[i];
       }
