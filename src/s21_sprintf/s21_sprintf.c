@@ -1,33 +1,36 @@
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "s21_sprintf.h"
 
-#include "../s21_string.h"
+int s21_sprintf(char *str, const char *format, ...) {
+  va_list factor;
+  va_start(factor, format);
+  char *temp_format = (char *)calloc(s21_strlen(format), sizeof(char));
+  s21_strncpy(temp_format, format, s21_strlen(format));
 
-// Чек-лист
-// Сделать парсер ✅
-// Спецификаторы
-// Флаги
-// Ширина
-// Точность
-// Длина
-//
+  int buffer_index = 0;
+  for (int i = 0; temp_format[i] != '\0'; i++) {
+    if (temp_format[i] == '%') {
+      FormatSpec info = {"nnn", 0, -1, 'n', 'n'};
+      i = parse_formatting(i, temp_format, &info);
+      if (info.specifier == 'd') {
+        handle_d_specifier(str, &buffer_index, &info, &factor);
+      } else if (info.specifier == 'c') {
+        handle_c_specifier(str, &buffer_index, &info, &factor);
+      } else if (info.specifier == 's') {
+        handle_s_specifier(str, &buffer_index, &info, &factor);
+      } else if (info.specifier == 'f') {
+      } else if (info.specifier == 'u') {
+        handle_u_specifier(str, &buffer_index, &info, &factor);
+      }
+    } else {
+      str[buffer_index++] = format[i];
+    }
+  }
+  str[buffer_index] = '\0';
+  va_end(factor);
+  return 1;
+}
 
-void int_to_string_unsign(int num, char *str);
-void long_int_to_string_unsign(long int num, char *str);
-void short_int_to_string_unsign(short int num, char *str);
-int is_number(const char *input_char);
-int is_digit(const char input_char);
-
-typedef struct {
-  char flag[3];
-  int width;
-  int precision;
-  char length;
-  char specifier;
-} FormatSpec;
-
-int parse_znach(int index, char *format_str, FormatSpec *infoSpec) {
+int parse_formatting(int index, char *format_str, FormatSpec *infoSpec) {
   // парсинг флагов
   for (++index; s21_strchr("-+ ", format_str[index]); index++) {
     (infoSpec->flag)[3 - s21_strlen(s21_strchr("-+ ", format_str[index]))] =
@@ -56,12 +59,38 @@ int parse_znach(int index, char *format_str, FormatSpec *infoSpec) {
   return index;
 }
 
+void handle_c_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args) {
+  char symbol[100];
+  symbol[0] = (char)va_arg(*args, int);
+  int length = 1;
+  width_handling_int_specifiers(symbol, &length, spec->width, spec->flag[0]);
+
+  s21_strncat(buffer, symbol, length);
+  *buffer_index += length;
+}
+
+void handle_s_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args) {
+  char *str = va_arg(*args, char *);
+  char buffer_for_str[1024];
+  int length = s21_strlen(str);
+  if (spec->precision >= 0 && spec->precision < length) {
+    length = spec->precision;
+  }
+  s21_strncpy(buffer_for_str, str, length);
+  width_handling_int_specifiers(buffer_for_str, &length, spec->width,
+                                spec->flag[0]);
+  s21_strncat(buffer, buffer_for_str, length);
+  *buffer_index += length;
+}
+
 void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
                         va_list *args) {
   int number;
   long int long_number;
   short int short_number;
-  char number_string[100];
+  char number_string[1024] = {0};
 
   // Обработка длины
   if (spec->length == 'l') {
@@ -78,112 +107,106 @@ void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
   int length = s21_strlen(number_string);
 
   // Обработка точности
-  if (spec->precision > 0) {
-    if (spec->precision > length) {
-      int zeros_count = spec->precision - length;
-      for (int i = length; i >= 0; i--) {
-        number_string[i + zeros_count] = number_string[i];
-      }
-      s21_memset(number_string, '0', zeros_count);
-      length += zeros_count;
-    }
-  }
+  precision_handling_int_specifiers(number_string, &length, spec->precision);
 
   // Обработка флагов
-  if (number > 0 && spec->flag[1] == 'y') {
-    for (int i = length; i >= 0; i--) {
-      number_string[i + 1] = number_string[i];
-    }
-    number_string[0] = '+';
-    length++;
-  } else if (number > 0 && spec->flag[1] == 'n' && spec->flag[2] == 'y') {
-    for (int i = length; i >= 0; i--) {
-      number_string[i + 1] = number_string[i];
-    }
-    number_string[0] = ' ';
-    length++;
-  } else if (number < 0) {
-    for (int i = length; i >= 0; i--) {
-      number_string[i + 1] = number_string[i];
-    }
-    number_string[0] = '-';
-    length++;
-  }
+  flags_handling_int_specifiers(number_string, number, &length, spec->flag);
 
   // Обработка ширины
-  if (spec->width > length && spec->flag[0] == 'y') {
-    for (int i = length; i < spec->width; i++, length++) {
-      number_string[i] = ' ';
-    }
-  } else if (spec->width > length) {
-    
-    for (int i = length; i >= 0; i--) {
-      number_string[i + spec->width - length] = number_string[i];
-    }
-
-    s21_memset(number_string, ' ', spec->width - length);
-    length = spec->width;
-    
-  }
+  width_handling_int_specifiers(number_string, &length, spec->width,
+                                spec->flag[0]);
 
   s21_strncat(buffer, number_string, length);
   *buffer_index += length;
 }
 
-int temp_sprintf(char *str, const char *format, ...) {
-  va_list factor;
-  va_start(factor, format);
-  char *temp_format = (char *)calloc(s21_strlen(format), sizeof(char));
-  s21_strncpy(temp_format, format, s21_strlen(format));
+void handle_u_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args) {
+  unsigned int number;
+  unsigned long int long_number;
+  unsigned short int short_number;
+  char number_string[1024] = {0};
 
-  int buffer_index = 0;
-  for (int i = 0; temp_format[i] != '\0'; i++) {
-    if (temp_format[i] == '%') {
-      FormatSpec info = {"nnn", 0, -1, 'n', 'n'};
-      i = parse_znach(i, temp_format, &info);
+  // Обработка длины
+  if (spec->length == 'l') {
+    long_number = va_arg(*args, unsigned long int);
+    long_int_to_string_unsign(long_number, number_string);
+  } else if (spec->length == 'h') {
+    short_number = (short)va_arg(*args, unsigned int);
+    short_int_to_string_unsign(short_number, number_string);
+  } else {
+    number = va_arg(*args, unsigned int);
+    int_to_string_unsign(number, number_string);
+  }
 
-      if (info.specifier == 'd') {
-        handle_d_specifier(str, &buffer_index, &info, &factor);
+  int length = s21_strlen(number_string);
+
+  // Обработка точности
+  precision_handling_int_specifiers(number_string, &length, spec->precision);
+
+  // Обработка ширины
+  width_handling_int_specifiers(number_string, &length, spec->width,
+                                spec->flag[0]);
+
+  s21_strncat(buffer, number_string, length);
+  *buffer_index += length;
+}
+
+void precision_handling_int_specifiers(char *number_string, int *length,
+                                       int precision) {
+  if (precision > 0) {
+    if (precision > *length) {
+      int zeros_count = precision - *length;
+      for (int i = *length; i >= 0; i--) {
+        number_string[i + zeros_count] = number_string[i];
       }
-    } else {
-      str[buffer_index++] = format[i];  // Копирование обычных символов
+      s21_memset(number_string, '0', zeros_count);
+      *length += zeros_count;
     }
   }
-  str[buffer_index] = '\0';  // Завершение строки
-  va_end(factor);
-  return 1;
 }
 
-int main() {
-  char buffer[100];
-  char buffer1[100];
-  temp_sprintf(buffer, "Chlen vot stok .%10.2d. sm", 123);
-  sprintf(buffer1, "Chlen vot stok .%10.2d. sm", 123);
-  printf("%s\n", buffer);
-  printf("%s\n", buffer1);
-
-  return 0;
-}
-
-int is_number(const char *input_str) {
-  int result = 1;
-  s21_size_t i = 0;
-  if (*input_str == '-') {
-    i++;
+void flags_handling_int_specifiers(char *number_string, int number, int *length,
+                                   char *flags) {
+  if (number > 0 && flags[1] == 'y') {
+    for (int i = *length; i >= 0; i--) {
+      number_string[i + 1] = number_string[i];
+    }
+    number_string[0] = '+';
+    (*length)++;
+  } else if (number > 0 && flags[1] == 'n' && flags[2] == 'y') {
+    for (int i = *length; i >= 0; i--) {
+      number_string[i + 1] = number_string[i];
+    }
+    number_string[0] = ' ';
+    (*length)++;
+  } else if (number < 0) {
+    for (int i = *length; i >= 0; i--) {
+      number_string[i + 1] = number_string[i];
+    }
+    number_string[0] = '-';
+    (*length)++;
   }
-  for (; i < s21_strlen(input_str); i++) {
-    result = is_digit(input_str[i]);
-  }
-  return result;
 }
 
-int is_digit(const char input_char) {
-  return (input_char >= '0' && input_char <= '9');
+void width_handling_int_specifiers(char *number_string, int *length, int width,
+                                   char flag) {
+  if (width > *length && flag == 'y') {
+    for (int i = *length; i < width; i++, (*length)++) {
+      number_string[i] = ' ';
+    }
+  } else if (width > *length) {
+    for (int i = *length; i >= 0; i--) {
+      number_string[i + width - *length] = number_string[i];
+    }
+
+    s21_memset(number_string, ' ', width - *length);
+    *length = width;
+  }
 }
 
 void int_to_string_unsign(int num, char *str) {
   int i = 0;
-  int sign = num;
 
   if (num == 0) {
     str[i++] = '0';
@@ -207,7 +230,6 @@ void int_to_string_unsign(int num, char *str) {
 
 void long_int_to_string_unsign(long int num, char *str) {
   int i = 0;
-  long int sign = num;
 
   if (num == 0) {
     str[i++] = '0';
@@ -231,7 +253,6 @@ void long_int_to_string_unsign(long int num, char *str) {
 
 void short_int_to_string_unsign(short int num, char *str) {
   int i = 0;
-  short int sign = num;
 
   if (num == 0) {
     str[i++] = '0';
