@@ -1,7 +1,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 #include "../s21_string.h"
 
 typedef struct {
@@ -34,3 +34,4 @@ void width_handling_int_specifiers(char *number_string, int *length, int width,
 void handle_u_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
                         va_list *args);
 int float_to_string(double number, char*str,int precision);
+double round_to_precision(double number, int precision);

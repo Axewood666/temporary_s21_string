@@ -389,8 +389,8 @@ START_TEST(specifier_f_with_precision_smaller_than_length) {
   char buffer1[STRING_LENGTH + 1] = {0};
   char buffer2[STRING_LENGTH + 1] = {0};
 
-  s21_sprintf(buffer1, "%.5f", 123.456789);
-  sprintf(buffer2, "%.5f", 123.456789);
+  s21_sprintf(buffer1, "%.f", 123.656789);
+  sprintf(buffer2, "%.f", 123.656789);
 
   ck_assert_str_eq(buffer1, buffer2);
 }

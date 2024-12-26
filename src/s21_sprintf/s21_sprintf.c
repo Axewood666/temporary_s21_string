@@ -224,10 +224,14 @@ void width_handling_int_specifiers(char *number_string, int *length, int width,
 }
 
 int float_to_string(double number, char *str, int precision) {
+
+  int i = 0;
+  if(number<0)number*=-1;
+  number = round_to_precision(number,precision);
   int int_part = (int)number;
   double fractional_part = number - int_part;
-  char buffer_int_part[20];
-  int i = 0;
+  char buffer_int_part[21];
+  
   if (int_part == 0) {
     buffer_int_part[i++] = '0';
   } else {
@@ -235,6 +239,9 @@ int float_to_string(double number, char *str, int precision) {
       buffer_int_part[i++] = (int_part % 10) + '0';
       int_part /= 10;
     }
+  }
+  if (number<0){
+    buffer_int_part[i++] = '-';
   }
   for (int j = i - 1; j >= 0; j--) {
     *str++ = buffer_int_part[j];
@@ -319,4 +326,9 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[j] = str[k];
     str[k] = temp;
   }
+}
+
+double round_to_precision(double number, int precision) {
+    double factor = pow(10, precision);
+    return round(number * factor) / factor;
 }
