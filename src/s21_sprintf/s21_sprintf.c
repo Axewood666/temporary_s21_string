@@ -2,9 +2,9 @@
 
 int main() {
   char buffer[100];
-  char buffer1[100];
-  s21_sprintf(buffer, "Chlen vot stok .%+10.2d. sm", 123);
-  sprintf(buffer1, "Chlen vot stok .%+10.2d. sm", 123);
+  char buffer1[1050];
+  s21_sprintf(buffer, "%10cmir", 'A');
+  sprintf(buffer1, "%10cmir", 'A');
   printf("%s\n", buffer);
   printf("%s\n", buffer1);
   return 0;
@@ -23,6 +23,9 @@ int s21_sprintf(char *str, const char *format, ...) {
       i = parse_formatting(i, temp_format, &info);
       if (info.specifier == 'd') {
         handle_d_specifier(str, &buffer_index, &info, &factor);
+      }
+      if (info.specifier == 'c') {
+        handle_c_specifier(str, &buffer_index, &info, &factor);
       }
     } else {
       str[buffer_index++] = format[i];  // Копирование обычных символов
@@ -60,6 +63,20 @@ int parse_formatting(int index, char *format_str, FormatSpec *infoSpec) {
     infoSpec->specifier = format_str[index];
   }
   return index;
+}
+
+
+void handle_c_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args){
+  char symbol[100];
+  symbol[0] = (char)va_arg(*args, int);
+  int length = 1;
+  width_handling_int_specifiers(symbol, &length, spec->width,
+                                spec->flag[0]);
+
+  
+  s21_strncat(buffer, symbol, length);
+  *buffer_index += length;
 }
 
 void handle_d_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
