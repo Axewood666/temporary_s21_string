@@ -29,3 +29,5 @@ void flags_handling_int_specifiers(char *number_string, int number, int *length,
                                    char *flags);
 void width_handling_int_specifiers(char *number_string, int *length, int width,
                                    char flag);
+void handle_u_specifier(char *buffer, int *buffer_index, FormatSpec *spec,
+                        va_list *args);
