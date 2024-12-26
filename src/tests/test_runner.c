@@ -3,7 +3,7 @@
 int main(void) {
   int i = 0;
   int fail_count = 0;
-  Suite* test_functions[] = {test_string(), test_sprintf(), NULL};
+  Suite* test_functions[] = {TEST_FUNCS, NULL};
   char* line = "---------------\n";
   while (test_functions[i]) {
     printf("%s", line);

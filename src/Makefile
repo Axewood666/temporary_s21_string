@@ -9,7 +9,7 @@ SRCS := $(string_dir)/s21_string.c $(string_dir)/s21_strerror.c $(sprintf_dir)/s
 OBJS := $(SRCS:.c=.o)
 GCOV_OBJS := $(SRCS:.c=_gcov.o)
 
-test_files=$(test_dir)/test_string.c $(test_dir)/test_sprintf.c
+test_files=$(test_dir)/test_string.c $(test_dir)/test_sprintf.c $(test_dir)/test_csharp.c
 TEST_OBJS := $(test_files:.c=.o)
 files_for_report=*.gcno *.gcda */*.gcno */*.gcda test_with_gcov s21_string_gcov.a
 
