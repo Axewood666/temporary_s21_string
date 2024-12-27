@@ -79,6 +79,3 @@ lcov_report: gcov
 $(test_dir)/%.o: $(test_dir)/%.c
 	$(CC) $(FLAGS) -c $< -o $@
 #--------------- 
-
-s21_strerror: $(string_dir)/s21_strerror.c
-	gcc -g $(string_dir)/s21_strerror.c -o test
