@@ -107,15 +107,15 @@ END_TEST
 
 START_TEST(s21_memcpy_test) {
   char *str = "01234";
-  char str2[40];
-  char str3[40];
+  char str2[40] = {0};
+  char str3[40] = {0};
   ck_assert_ptr_eq(s21_memcpy(str2, str, 4), memcpy(str2, str, 4));
   ck_assert_str_eq((char *)s21_memcpy(str3, str, 4),
                    (char *)memcpy(str3, str, 4));
 
   char src[] = "Hello, World!";
-  char dest1[50];
-  char dest2[50];
+  char dest1[50] = {0};
+  char dest2[50] = {0};
   s21_memcpy(dest1, src, 14);
   memcpy(dest2, src, 14);
   ck_assert_str_eq(dest1, dest2);
@@ -133,8 +133,8 @@ START_TEST(s21_memset_test) {
   char str1[] = "Test function memset s21";
   ck_assert_ptr_eq(s21_memset(str1, ' ', 24), memset(str1, ' ', 24));
 
-  char str2[15];
-  char str3[15];
+  char str2[15] = {0};
+  char str3[15] = {0};
   s21_memset(str2, '\0', 15);
   memset(str3, '\0', 15);
   ck_assert_str_eq(str2, str3);
@@ -153,44 +153,23 @@ START_TEST(s21_memset_test) {
 }
 END_TEST
 
-START_TEST(s21_strncmp_test) {
-  char *str = "0001";
-  char *str2 = "0001";
-  ck_assert_int_eq(s21_strncmp(str, str2, 3), strncmp(str, str2, 3));
-  ck_assert_int_eq(s21_strncmp(str, str2, 4), strncmp(str, str2, 4));
-
-  char *str3 = "test";
-  char *str4 = "zero";
-  ck_assert_int_eq(s21_strncmp(str3, str3, 0), strncmp(str3, str3, 0));
-  ck_assert_int_eq(s21_strncmp(str3, str4, 4), strncmp(str3, str4, 4));
-
-  char *str5 = "case";
-  char *str6 = "Case";
-  ck_assert_int_eq(s21_strncmp(str5, str6, 4), strncmp(str5, str6, 4));
-
-  char str7[13] = "Hello!?>21.?:";
-  char str8[13] = "Hello!?>21.?:";
-  ck_assert_int_eq(s21_strncmp(str7, str8, 13), strncmp(str7, str8, 13));
-}
-END_TEST
-
 START_TEST(s21_strncpy_test) {
   char *str = "01234";
-  char str2[40];
-  char str3[40];
+  char str2[40] = {0};
+  char str3[40] = {0};
   ck_assert_ptr_eq(s21_strncpy(str2, str, 2), strncpy(str2, str, 2));
   ck_assert_str_eq(s21_strncpy(str3, str, 4), strncpy(str3, str, 4));
 
   char src[] = "Hello, World!";
-  char dest1[50];
-  char dest2[50];
+  char dest1[50] = {0};
+  char dest2[50] = {0};
   s21_strncpy(dest1, src, 14);
   strncpy(dest2, src, 14);
   ck_assert_str_eq(dest1, dest2);
 
   char src3[] = "Full string copy";
-  char dest5[50];
-  char dest6[50];
+  char dest5[50] = {0};
+  char dest6[50] = {0};
   s21_strncpy(dest5, src3, strlen(src3) + 1);
   strncpy(dest6, src3, strlen(src3) + 1);
   ck_assert_str_eq(dest5, dest6);
@@ -304,6 +283,27 @@ START_TEST(s21_strerror_test) {
 }
 END_TEST
 
+START_TEST(s21_strncmp_test) {
+  char *str = "0001";
+  char *str2 = "0001";
+  ck_assert_int_eq(s21_strncmp(str, str2, 3), strncmp(str, str2, 3));
+  ck_assert_int_eq(s21_strncmp(str, str2, 4), strncmp(str, str2, 4));
+
+  char *str3 = "test";
+  char *str4 = "zero";
+  ck_assert_int_eq(s21_strncmp(str3, str4, 0), strncmp(str3, str4, 0));
+  ck_assert_int_eq(s21_strncmp(str3, str4, 2), strncmp(str3, str4, 2));
+
+  char *str5 = "case";
+  char *str6 = "Case";
+  ck_assert_int_eq(s21_strncmp(str5, str6, 4), strncmp(str5, str6, 4));
+
+  char str7[13] = "Hello!?>21.?:";
+  char str8[13] = "Hello!?>21.?:";
+  ck_assert_int_eq(s21_strncmp(str7, str8, 13), strncmp(str7, str8, 13));
+}
+END_TEST
+
 Suite *test_string(void) {
   Suite *s = suite_create("String functions test");
   TCase *tc = tcase_create("Tests");
@@ -316,13 +316,13 @@ Suite *test_string(void) {
   tcase_add_test(tc, s21_memcmp_test);
   tcase_add_test(tc, s21_memcpy_test);
   tcase_add_test(tc, s21_memset_test);
-  tcase_add_test(tc, s21_strncmp_test);
   tcase_add_test(tc, s21_strncpy_test);
   tcase_add_test(tc, s21_strcspn_test);
   tcase_add_test(tc, s21_strtok_test);
   tcase_add_test(tc, s21_strncat_test);
   tcase_add_test(tc, s21_strstr_test);
   tcase_add_test(tc, s21_strerror_test);
+  tcase_add_test(tc, s21_strncmp_test);
 
   suite_add_tcase(s, tc);
   return s;
