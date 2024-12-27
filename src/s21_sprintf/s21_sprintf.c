@@ -38,6 +38,10 @@ void handle_specifiers(char *str, int *buffer_index, const char *format, int *i,
     case UNSIGNED:
       handle_u_specifier(str, buffer_index, &info, args);
       break;
+    case '%':
+      handle_percent_specifier(str,buffer_index,&info);
+      break;
+      
   }
 }
 
@@ -330,4 +334,14 @@ void handle_u_specifier(char *buffer, int *buffer_index, formatting *spec,
 
   s21_strncat(buffer, number_string, length);
   *buffer_index += length;
+}
+
+void handle_percent_specifier(char *buffer, int *buffer_index, formatting *spec){
+  char percent_str[STRING_SIZE] = {0};
+  percent_str[0] = '%';
+  int length = 1;
+  width_handling_specifiers(percent_str, &length, spec->width,
+                            spec->flags[MINUS_FLAG]);
+  s21_strncat(buffer, percent_str, length);
+  *buffer_index += length;                    
 }

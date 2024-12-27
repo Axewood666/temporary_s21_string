@@ -13,7 +13,7 @@
 #define NO 'n'
 #define FLAGS "-+ "
 #define LENGTH "hl"
-#define SPECIFIERS "cdfsu"
+#define SPECIFIERS "cdfsu%"
 #define NUMBERS "0123456789"
 #define FLOAT 'f'
 #define INT 'd'
@@ -64,3 +64,4 @@ int float_to_string(double number, char *str, int precision);
 double round_to_precision(double number, int precision);
 void handle_u_specifier(char *buffer, int *buffer_index, formatting *spec,
                         va_list *args);
+void handle_percent_specifier(char *buffer, int *buffer_index, formatting *spec);
