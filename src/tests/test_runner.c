@@ -8,6 +8,7 @@ int main(void) {
   while (test_functions[i]) {
     printf("%s", line);
     SRunner *sr = srunner_create(test_functions[i]);
+    srunner_set_fork_status(sr, CK_NOFORK);
     srunner_run_all(sr, CK_NORMAL);
     fail_count += srunner_ntests_failed(sr);
     srunner_free(sr);

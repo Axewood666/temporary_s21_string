@@ -47,6 +47,15 @@ test: s21_string.a $(TEST_OBJS)
 	@echo "-------------------------------------\n"
 #-------------
 
+#tests valgrind
+test_valgrind: s21_string.a $(TEST_OBJS)
+	@echo "\n----------------Tests----------------"
+	@$(cc) $(flags) $(test_dir)/test_runner.c $(TEST_OBJS) s21_string.a $(check_flags) -o test
+	@valgrind --tool=memcheck --leak-check=yes ./test
+	@rm test
+	@echo "-------------------------------------\n"
+#-------------
+
 #gcov reports
 gcov: s21_string_gcov.a $(TEST_OBJS)
 	$(cc) $(flags) $(gcov_flags)  $(test_dir)/test_runner.c $(TEST_OBJS) s21_string_gcov.a $(check_flags) -o test_with_gcov
