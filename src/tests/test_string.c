@@ -9,109 +9,109 @@
 #include "../s21_string.h"
 
 START_TEST(s21_strlen_test) {
-  char* str = "";
+  char *str = "";
   ck_assert_int_eq(s21_strlen(str), strlen(str));
 
-  char* str1 = "Hello";
+  char *str1 = "Hello";
   ck_assert_int_eq(s21_strlen(str1), strlen(str1));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?";
   ck_assert_int_eq(s21_strlen(str2), strlen(str2));
 
-  char* str3 = "a";
+  char *str3 = "a";
   ck_assert_int_eq(s21_strlen(str3), strlen(str3));
 }
 END_TEST
 
 START_TEST(s21_strchr_test) {
-  char* str = "";
+  char *str = "";
   ck_assert_ptr_eq(s21_strchr(str, 's'), strchr(str, 's'));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?";
   ck_assert_ptr_eq(s21_strchr(str2, '\n'), strchr(str2, '\n'));
   ck_assert_ptr_eq(s21_strchr(str2, 'P'), strchr(str2, 'P'));
   ck_assert_ptr_eq(s21_strchr(str2, 'z'), strchr(str2, 'z'));
 
-  char* str3 = "abcde";
+  char *str3 = "abcde";
   ck_assert_ptr_eq(s21_strchr(str3, 'e'), strchr(str3, 'e'));
 
-  char* str4 = "1234567890";
+  char *str4 = "1234567890";
   ck_assert_ptr_eq(s21_strchr(str4, '\0'), strchr(str4, '\0'));
 }
 END_TEST
 
 START_TEST(s21_strrchr_test) {
-  char* str = "sssssssssssls";
+  char *str = "sssssssssssls";
   ck_assert_ptr_eq(s21_strrchr(str, 's'), strrchr(str, 's'));
   ck_assert_ptr_eq(s21_strrchr(str, 'l'), strrchr(str, 'l'));
   ck_assert_ptr_eq(s21_strrchr(str, '\n'), strrchr(str, '\n'));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?\n";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?\n";
   ck_assert_ptr_eq(s21_strrchr(str2, '\n'), strrchr(str2, '\n'));
 
-  char* str3 = "abcde";
+  char *str3 = "abcde";
   ck_assert_ptr_eq(s21_strrchr(str3, 'e'), strrchr(str3, 'e'));
 
-  char* str4 = "1234567890";
+  char *str4 = "1234567890";
   ck_assert_ptr_eq(s21_strrchr(str4, '\0'), strrchr(str4, '\0'));
 }
 END_TEST
 
 START_TEST(s21_strpbrk_test) {
-  char* str = "1234567890";
+  char *str = "1234567890";
   ck_assert_ptr_eq(s21_strpbrk(str, "74567"), strpbrk(str, "74567"));
   ck_assert_ptr_eq(s21_strpbrk(str, "sadxzP"), strpbrk(str, "sadxzP"));
   ck_assert_ptr_eq(s21_strpbrk(str, "xyz"), strpbrk(str, "xyz"));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?";
   ck_assert_ptr_eq(s21_strpbrk(str2, "sadxzP"), strpbrk(str2, "sadxzP"));
   ck_assert_ptr_eq(s21_strpbrk(str2, "nz"), strpbrk(str2, "nz"));
 
-  char* str3 = "abcdef";
+  char *str3 = "abcdef";
   ck_assert_ptr_eq(s21_strpbrk(str3, "def"), strpbrk(str3, "def"));
 }
 END_TEST
 
 START_TEST(s21_memchr_test) {
-  char* str = "l";
+  char *str = "l";
   ck_assert_ptr_eq(s21_memchr(str, 's', 1), memchr(str, 's', 1));
   ck_assert_ptr_eq(s21_memchr(str, 'l', 1), memchr(str, 'l', 1));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?";
   ck_assert_ptr_eq(s21_memchr(str2, '\n', strlen(str2)),
                    memchr(str2, '\n', strlen(str2)));
   ck_assert_ptr_eq(s21_memchr(str2, 'P', 1), memchr(str2, 'P', 1));
   ck_assert_ptr_eq(s21_memchr(str2, 'P', 0), memchr(str2, 'P', 0));
 
-  char* str3 = "abcdef";
+  char *str3 = "abcdef";
   ck_assert_ptr_eq(s21_memchr(str3, 'c', 6), memchr(str3, 'c', 6));
 }
 END_TEST
 
 START_TEST(s21_memcmp_test) {
-  char* str = "0001";
-  char* str2 = "0001";
+  char *str = "0001";
+  char *str2 = "0001";
   ck_assert_int_eq(s21_memcmp(str, str2, 3), memcmp(str, str2, 3));
   ck_assert_int_eq(s21_memcmp(str, str2, 4), memcmp(str, str2, 4));
 
-  char* str3 = "test";
-  char* str4 = "zero";
+  char *str3 = "test";
+  char *str4 = "zero";
   ck_assert_int_eq(s21_memcmp(str3, str3, 0), memcmp(str3, str3, 0));
   ck_assert_int_eq(s21_memcmp(str3, str4, 4), memcmp(str3, str4, 4));
 
-  char* str5 = "case";
-  char* str6 = "Case";
+  char *str5 = "case";
+  char *str6 = "Case";
   ck_assert_int_eq(s21_memcmp(str5, str6, 4), memcmp(str5, str6, 4));
 }
 END_TEST
 
 START_TEST(s21_memcpy_test) {
-  char* str = "01234";
+  char *str = "01234";
   char str2[40];
   char str3[40];
   ck_assert_ptr_eq(s21_memcpy(str2, str, 4), memcpy(str2, str, 4));
-  ck_assert_str_eq((char*)s21_memcpy(str3, str, 4),
-                   (char*)memcpy(str3, str, 4));
+  ck_assert_str_eq((char *)s21_memcpy(str3, str, 4),
+                   (char *)memcpy(str3, str, 4));
 
   char src[] = "Hello, World!";
   char dest1[50];
@@ -154,18 +154,18 @@ START_TEST(s21_memset_test) {
 END_TEST
 
 START_TEST(s21_strncmp_test) {
-  char* str = "0001";
-  char* str2 = "0001";
+  char *str = "0001";
+  char *str2 = "0001";
   ck_assert_int_eq(s21_strncmp(str, str2, 3), strncmp(str, str2, 3));
   ck_assert_int_eq(s21_strncmp(str, str2, 4), strncmp(str, str2, 4));
 
-  char* str3 = "test";
-  char* str4 = "zero";
+  char *str3 = "test";
+  char *str4 = "zero";
   ck_assert_int_eq(s21_strncmp(str3, str3, 0), strncmp(str3, str3, 0));
   ck_assert_int_eq(s21_strncmp(str3, str4, 4), strncmp(str3, str4, 4));
 
-  char* str5 = "case";
-  char* str6 = "Case";
+  char *str5 = "case";
+  char *str6 = "Case";
   ck_assert_int_eq(s21_strncmp(str5, str6, 4), strncmp(str5, str6, 4));
 
   char str7[13] = "Hello!?>21.?:";
@@ -175,7 +175,7 @@ START_TEST(s21_strncmp_test) {
 END_TEST
 
 START_TEST(s21_strncpy_test) {
-  char* str = "01234";
+  char *str = "01234";
   char str2[40];
   char str3[40];
   ck_assert_ptr_eq(s21_strncpy(str2, str, 2), strncpy(str2, str, 2));
@@ -198,16 +198,16 @@ START_TEST(s21_strncpy_test) {
 END_TEST
 
 START_TEST(s21_strcspn_test) {
-  char* str = "1234567890";
+  char *str = "1234567890";
   ck_assert_int_eq(s21_strcspn(str, "74567"), strcspn(str, "74567"));
   ck_assert_int_eq(s21_strcspn(str, "sadxzP"), strcspn(str, "sadxzP"));
   ck_assert_int_eq(s21_strcspn(str, "xyz"), strcspn(str, "xyz"));
 
-  char* str2 = "PRivet\nkakdela?bu, ispugalsa?";
+  char *str2 = "PRivet\nkakdela?bu, ispugalsa?";
   ck_assert_int_eq(s21_strcspn(str2, "sadxzP"), strcspn(str2, "sadxzP"));
   ck_assert_int_eq(s21_strcspn(str2, "nz"), strcspn(str2, "nz"));
 
-  char* str3 = "abcdef";
+  char *str3 = "abcdef";
   ck_assert_int_eq(s21_strcspn(str3, "def"), strcspn(str3, "def"));
 }
 END_TEST
@@ -254,44 +254,44 @@ START_TEST(s21_strncat_test) {
 END_TEST
 
 START_TEST(s21_strstr_test) {
-  char* haystack1 = "Hello, World!";
-  char* needle1 = "World";
+  char *haystack1 = "Hello, World!";
+  char *needle1 = "World";
   ck_assert_ptr_eq(s21_strstr(haystack1, needle1), strstr(haystack1, needle1));
 
-  char* haystack2 = "Test string";
-  char* needle2 = "Test";
+  char *haystack2 = "Test string";
+  char *needle2 = "Test";
   ck_assert_ptr_eq(s21_strstr(haystack2, needle2), strstr(haystack2, needle2));
 
-  char* haystack3 = "Find me at the end";
-  char* needle3 = "end";
+  char *haystack3 = "Find me at the end";
+  char *needle3 = "end";
   ck_assert_ptr_eq(s21_strstr(haystack3, needle3), strstr(haystack3, needle3));
 
-  char* haystack4 = "No match here";
-  char* needle4 = "match!";
+  char *haystack4 = "No match here";
+  char *needle4 = "match!";
   ck_assert_ptr_eq(s21_strstr(haystack4, needle4), strstr(haystack4, needle4));
 
-  char* haystack5 = "Any string";
-  char* needle5 = "";
+  char *haystack5 = "Any string";
+  char *needle5 = "";
   ck_assert_ptr_eq(s21_strstr(haystack5, needle5), strstr(haystack5, needle5));
 
-  char* haystack6 = "";
-  char* needle6 = "not found";
+  char *haystack6 = "";
+  char *needle6 = "not found";
   ck_assert_ptr_eq(s21_strstr(haystack6, needle6), strstr(haystack6, needle6));
 
-  char* haystack7 = "Short";
-  char* needle7 = "Longer";
+  char *haystack7 = "Short";
+  char *needle7 = "Longer";
   ck_assert_ptr_eq(s21_strstr(haystack7, needle7), strstr(haystack7, needle7));
 
-  char* haystack8 = "abcabcabc";
-  char* needle8 = "abc";
+  char *haystack8 = "abcabcabc";
+  char *needle8 = "abc";
   ck_assert_ptr_eq(s21_strstr(haystack8, needle8), strstr(haystack8, needle8));
 
-  char* haystack9 = "Identical";
-  char* needle9 = "Identical";
+  char *haystack9 = "Identical";
+  char *needle9 = "Identical";
   ck_assert_ptr_eq(s21_strstr(haystack9, needle9), strstr(haystack9, needle9));
 
-  char* haystack10 = "This is a test";
-  char* needle10 = "is a";
+  char *haystack10 = "This is a test";
+  char *needle10 = "is a";
   ck_assert_ptr_eq(s21_strstr(haystack10, needle10),
                    strstr(haystack10, needle10));
 }
@@ -304,9 +304,9 @@ START_TEST(s21_strerror_test) {
 }
 END_TEST
 
-Suite* test_string(void) {
-  Suite* s = suite_create("String functions test");
-  TCase* tc = tcase_create("Tests");
+Suite *test_string(void) {
+  Suite *s = suite_create("String functions test");
+  TCase *tc = tcase_create("Tests");
 
   tcase_add_test(tc, s21_strlen_test);
   tcase_add_test(tc, s21_strchr_test);

@@ -112,7 +112,8 @@ void long_int_to_string_unsign(long int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -135,7 +136,8 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -158,7 +160,8 @@ void int_to_string_unsign(int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -269,7 +272,8 @@ void handle_f_specifier(char *buffer, int *buffer_index, formatting *spec,
 
 int float_to_string(double number, char *str, int precision) {
   int i = 0;
-  if (number < 0) number *= -1;
+  if (number < 0)
+    number *= -1;
   number = round_to_precision(number, precision);
   int int_part = (int)number;
   double fractional_part = number - int_part;
