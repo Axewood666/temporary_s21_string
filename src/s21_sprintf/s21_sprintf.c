@@ -23,21 +23,21 @@ void handle_specifiers(char *str, int *buffer_index, const char *format, int *i,
   formatting info = {DEFAULT_FORMATTING};
   *i = parse_formatting(*i, format, &info);
   switch (info.specifier) {
-    case INT:
-      handle_d_specifier(str, buffer_index, &info, args);
-      break;
-    case CHAR:
-      handle_c_specifier(str, buffer_index, &info, args);
-      break;
-    case STRING:
-      handle_s_specifier(str, buffer_index, &info, args);
-      break;
-    case FLOAT:
-      handle_f_specifier(str, buffer_index, &info, args);
-      break;
-    case UNSIGNED:
-      handle_u_specifier(str, buffer_index, &info, args);
-      break;
+  case INT:
+    handle_d_specifier(str, buffer_index, &info, args);
+    break;
+  case CHAR:
+    handle_c_specifier(str, buffer_index, &info, args);
+    break;
+  case STRING:
+    handle_s_specifier(str, buffer_index, &info, args);
+    break;
+  case FLOAT:
+    handle_f_specifier(str, buffer_index, &info, args);
+    break;
+  case UNSIGNED:
+    handle_u_specifier(str, buffer_index, &info, args);
+    break;
   }
 }
 
@@ -108,7 +108,8 @@ void long_int_to_string_unsign(long int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -131,7 +132,8 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -154,7 +156,8 @@ void int_to_string_unsign(int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0) num = -num;
+  if (num < 0)
+    num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -265,7 +268,8 @@ void handle_f_specifier(char *buffer, int *buffer_index, formatting *spec,
 
 int float_to_string(double number, char *str, int precision) {
   int i = 0;
-  if (number < 0) number *= -1;
+  if (number < 0)
+    number *= -1;
   number = round_to_precision(number, precision);
   int int_part = (int)number;
   double fractional_part = number - int_part;
