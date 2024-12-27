@@ -1,5 +1,6 @@
 #include "s21_sprintf.h"
 
+
 int s21_sprintf(char *str, const char *format, ...) {
   va_list factor;
   va_start(factor, format);
@@ -94,9 +95,19 @@ void handle_d_specifier(char *buffer, int *buffer_index, formatting *spec,
 
   precision_handling_int_specifiers(number_string, &length, spec->precision);
 
-  flags_handling_sign_numbers_specifiers(number_string, number, &length,
-                                         spec->flags);
 
+  if (spec->length == LONG) {
+    flags_handling_sign_numbers_specifiers(number_string, long_number, &length,
+                                         spec->flags);
+  } else if (spec->length == SHORT) {
+    flags_handling_sign_numbers_specifiers(number_string, short_number, &length,
+                                         spec->flags);
+  } else {
+    flags_handling_sign_numbers_specifiers(number_string, number, &length,
+                                         spec->flags);
+  }
+
+  
   width_handling_specifiers(number_string, &length, spec->width,
                             spec->flags[MINUS_FLAG]);
 
@@ -187,7 +198,7 @@ void precision_handling_int_specifiers(char *number_string, int *length,
   }
 }
 
-void flags_handling_sign_numbers_specifiers(char *number_string, int number,
+void flags_handling_sign_numbers_specifiers(char *number_string, long int number,
                                             int *length, char *flags) {
   if (number > 0 && flags[1] == YES) {
     for (int i = *length; i >= 0; i--) {

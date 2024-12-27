@@ -50,7 +50,7 @@ void short_int_to_string_unsign(short int num, char *str);
 void int_to_string_unsign(int num, char *str);
 void precision_handling_int_specifiers(char *number_string, int *length,
                                        int precision);
-void flags_handling_sign_numbers_specifiers(char *number_string, int number,
+void flags_handling_sign_numbers_specifiers(char *number_string, long int number,
                                             int *length, char *flags);
 void width_handling_specifiers(char *number_string, int *length, int width,
                                char flag);

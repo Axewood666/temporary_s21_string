@@ -15,7 +15,7 @@ void *insert(const char *src, const char *str, s21_size_t start_index) {
         s21_strncpy(new_str + start_index, str, len_str);
         s21_strncpy(new_str + start_index + len_str, src + start_index,
                     len_src - start_index);
-        newStr[sum_len - 1] = '\0';
+        new_str[sum_len - 1] = '\0';
         return_str = new_str;
       }
     }
@@ -28,7 +28,7 @@ void *trim(const char *src, const char *trim_chars) {
   if (src != s21_NULL && trim_chars != s21_NULL) {
     int len_src = s21_strlen(src);
     int start = 0, end = len_src;
-    while (start < lenSrc && s21_strchr(trim_chars, src[start]) != NULL) {
+    while (start < len_src && s21_strchr(trim_chars, src[start]) != NULL) {
       start++;
     }
     while (end > 0 && s21_strchr(trim_chars, src[end]) != NULL) {

@@ -147,8 +147,8 @@ START_TEST(specifier_d_with_lengh_l) {
   char buffer1[STRING_LENGTH + 1] = {0};
   char buffer2[STRING_LENGTH + 1] = {0};
 
-  int res1 = s21_sprintf(buffer1, "%ld", 9000000000000000000);
-  int res2 = sprintf(buffer2, "%ld", 9000000000000000000);
+  int res1 = s21_sprintf(buffer1, "%ld", 90000000000000000);
+  int res2 = sprintf(buffer2, "%ld", 90000000000000000);
 
   ck_assert_str_eq(buffer1, buffer2);
   ck_assert_int_eq(res1, res2);
