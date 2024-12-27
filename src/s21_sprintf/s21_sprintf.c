@@ -39,9 +39,8 @@ void handle_specifiers(char *str, int *buffer_index, const char *format, int *i,
       handle_u_specifier(str, buffer_index, &info, args);
       break;
     case '%':
-      handle_percent_specifier(str,buffer_index,&info);
+      handle_percent_specifier(str, buffer_index, &info);
       break;
-      
   }
 }
 
@@ -112,8 +111,7 @@ void long_int_to_string_unsign(long int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0)
-    num = -num;
+  if (num < 0) num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -136,8 +134,7 @@ void short_int_to_string_unsign(short int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0)
-    num = -num;
+  if (num < 0) num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -160,8 +157,7 @@ void int_to_string_unsign(int num, char *str) {
     str[i++] = '0';
   }
 
-  if (num < 0)
-    num = -num;
+  if (num < 0) num = -num;
 
   while (num > 0) {
     str[i++] = num % 10 + '0';
@@ -272,8 +268,7 @@ void handle_f_specifier(char *buffer, int *buffer_index, formatting *spec,
 
 int float_to_string(double number, char *str, int precision) {
   int i = 0;
-  if (number < 0)
-    number *= -1;
+  if (number < 0) number *= -1;
   number = round_to_precision(number, precision);
   int int_part = (int)number;
   double fractional_part = number - int_part;
@@ -340,12 +335,13 @@ void handle_u_specifier(char *buffer, int *buffer_index, formatting *spec,
   *buffer_index += length;
 }
 
-void handle_percent_specifier(char *buffer, int *buffer_index, formatting *spec){
+void handle_percent_specifier(char *buffer, int *buffer_index,
+                              formatting *spec) {
   char percent_str[STRING_SIZE] = {0};
   percent_str[0] = '%';
   int length = 1;
   width_handling_specifiers(percent_str, &length, spec->width,
                             spec->flags[MINUS_FLAG]);
   s21_strncat(buffer, percent_str, length);
-  *buffer_index += length;                    
+  *buffer_index += length;
 }
