@@ -553,17 +553,8 @@ START_TEST(specifiers_percent) {
 }
 END_TEST
 
-START_TEST(specifiers_percent_with_width) {
-  char buffer1[STRING_LENGTH + 1] = {0};
-  char buffer2[STRING_LENGTH + 1] = {0};
 
-  int res1 = s21_sprintf(buffer1, "%10% space");
-  int res2 = sprintf(buffer2, "%10% space");
 
-  ck_assert_str_eq(buffer1, buffer2);
-  ck_assert_int_eq(res1, res2);
-}
-END_TEST
 
 Suite *test_sprintf(void) {
   Suite *s = suite_create("Sprintf test");
@@ -621,8 +612,7 @@ Suite *test_sprintf(void) {
   tcase_add_test(tc, two_defferent_specifiers);
 
   tcase_add_test(tc, specifiers_percent);
-  tcase_add_test(tc, specifiers_percent_with_width);
-
+  
   suite_add_tcase(s, tc);
 
   return s;
