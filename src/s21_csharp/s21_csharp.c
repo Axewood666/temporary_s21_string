@@ -46,8 +46,8 @@ void *trim(const char *src, const char *trim_chars) {
       if (return_str == s21_NULL) {
         return_str = s21_NULL;
       } else {
-        s21_strncpy(return_str, src + start, ret_len - 1);
-        return_str[ret_len - 1] = '\0';
+        s21_strncpy(return_str, src + start, ret_len);
+        return_str[ret_len + 1] = '\0';
       }
     }
   } else {
