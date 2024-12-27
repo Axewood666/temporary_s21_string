@@ -57,31 +57,31 @@ void *trim(const char *src, const char *trim_chars) {
 }
 
 void *to_upper(const char *str) {
-  char *returnStr = s21_NULL;
+  char *return_str = s21_NULL;
   if (str != s21_NULL) {
     s21_size_t len = s21_strlen(str);
-    returnStr = calloc(len + 1, sizeof(char));
-    if (returnStr != s21_NULL) {
+    return_str = calloc(len + 1, sizeof(char));
+    if (return_str != s21_NULL) {
       for (s21_size_t i = 0; i < len; i++) {
-        returnStr[i] = (str[i] >= 'a' && str[i] <= 'z') ? str[i] - 32 : str[i];
+        return_str[i] = (str[i] >= 'a' && str[i] <= 'z') ? str[i] - 32 : str[i];
       }
-      returnStr[len] = '\0';
+      return_str[len] = '\0';
     }
   }
-  return returnStr;
+  return return_str;
 }
 
 void *to_lower(const char *str) {
-  char *returnStr = s21_NULL;
+  char *return_str = s21_NULL;
   if (str != s21_NULL) {
     s21_size_t len = s21_strlen(str);
-    returnStr = calloc(len + 1, sizeof(char));
-    if (returnStr != s21_NULL) {
+    return_str = calloc(len + 1, sizeof(char));
+    if (return_str != s21_NULL) {
       for (s21_size_t i = 0; i < len; i++) {
-        returnStr[i] = (str[i] >= 'A' && str[i] <= 'Z') ? str[i] + 32 : str[i];
+        return_str[i] = (str[i] >= 'A' && str[i] <= 'Z') ? str[i] + 32 : str[i];
       }
-      returnStr[len] = '\0';
+      return_str[len] = '\0';
     }
   }
-  return returnStr;
+  return return_str;
 }
