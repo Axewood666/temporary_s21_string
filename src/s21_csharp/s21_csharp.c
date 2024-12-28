@@ -24,34 +24,29 @@ void *insert(const char *src, const char *str, s21_size_t start_index) {
 }
 
 void *trim(const char *src, const char *trim_chars) {
-  char *return_str;
+  char *return_str = s21_NULL;
   if (src != s21_NULL && trim_chars != s21_NULL) {
     int len_src = s21_strlen(src);
     int start = 0, end = len_src;
     while (start < len_src && s21_strchr(trim_chars, src[start]) != NULL) {
       start++;
     }
-    while (end > 0 && s21_strchr(trim_chars, src[end]) != NULL) {
+    while (end > start && s21_strchr(trim_chars, src[end - 1]) != NULL) {
       end--;
     }
     if (start >= end) {
       return_str = malloc(sizeof(char));
-      if (return_str == s21_NULL) {
-        return_str = s21_NULL;
+      if (return_str != s21_NULL) {
+        return_str[0] = '\0';
       }
-      return_str[0] = '\0';
     } else {
-      int ret_len = end - start + 1;
-      return_str = malloc(sizeof(char) * ret_len);
-      if (return_str == s21_NULL) {
-        return_str = s21_NULL;
-      } else {
+      int ret_len = end - start;
+      return_str = malloc(sizeof(char) * (ret_len + 1));
+      if (return_str != s21_NULL) {
         s21_strncpy(return_str, src + start, ret_len);
         return_str[ret_len] = '\0';
       }
     }
-  } else {
-    return_str = s21_NULL;
   }
   return return_str;
 }
