@@ -284,33 +284,39 @@ START_TEST(s21_strerror_test) {
 END_TEST
 
 int sign(int num) {
-    if (num > 0) {
-        return 1;
-    } else if (num < 0) {
-        return -1;
-    } else {
-        return 0;
-    }
+  if (num > 0) {
+    return 1;
+  } else if (num < 0) {
+    return -1;
+  } else {
+    return 0;
+  }
 }
 
 START_TEST(s21_strncmp_test) {
   char *str = "0001";
   char *str2 = "0001";
-  ck_assert_int_eq(sign(s21_strncmp(str, str2, 3)), sign(strncmp(str, str2, 3)));
-  ck_assert_int_eq(sign(s21_strncmp(str, str2, 4)), sign(strncmp(str, str2, 4)));
+  ck_assert_int_eq(sign(s21_strncmp(str, str2, 3)),
+                   sign(strncmp(str, str2, 3)));
+  ck_assert_int_eq(sign(s21_strncmp(str, str2, 4)),
+                   sign(strncmp(str, str2, 4)));
 
   char *str3 = "test";
   char *str4 = "zero";
-  ck_assert_int_eq(sign(s21_strncmp(str3, str4, 0)), sign(strncmp(str3, str4, 0)));
-  ck_assert_int_eq(sign(s21_strncmp(str3, str4, 2)), sign(strncmp(str3, str4, 2)));
+  ck_assert_int_eq(sign(s21_strncmp(str3, str4, 0)),
+                   sign(strncmp(str3, str4, 0)));
+  ck_assert_int_eq(sign(s21_strncmp(str3, str4, 2)),
+                   sign(strncmp(str3, str4, 2)));
 
   char *str5 = "case";
   char *str6 = "Case";
-  ck_assert_int_eq(sign(s21_strncmp(str5, str6, 4)), sign(strncmp(str5, str6, 4)));
+  ck_assert_int_eq(sign(s21_strncmp(str5, str6, 4)),
+                   sign(strncmp(str5, str6, 4)));
 
   char str7[13] = "Hello!?>21.?:";
   char str8[13] = "Hello!?>21.?:";
-  ck_assert_int_eq(sign(s21_strncmp(str7, str8, 13)), sign(strncmp(str7, str8, 13)));
+  ck_assert_int_eq(sign(s21_strncmp(str7, str8, 13)),
+                   sign(strncmp(str7, str8, 13)));
 }
 END_TEST
 

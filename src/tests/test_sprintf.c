@@ -553,9 +553,6 @@ START_TEST(specifiers_percent) {
 }
 END_TEST
 
-
-
-
 Suite *test_sprintf(void) {
   Suite *s = suite_create("Sprintf test");
   TCase *tc = tcase_create("Tests");
@@ -612,7 +609,7 @@ Suite *test_sprintf(void) {
   tcase_add_test(tc, two_defferent_specifiers);
 
   tcase_add_test(tc, specifiers_percent);
-  
+
   suite_add_tcase(s, tc);
 
   return s;
