@@ -25,7 +25,7 @@ endif
 #standart
 rebuild: clean all
 
-all: test gcovr_report
+all: test gcov_report
 
 clean:
 	rm -f $(OBJS) $(TEST_OBJS) *.a $(files_for_report) $(GCOV_OBJS)
@@ -66,7 +66,7 @@ s21_string_gcov.a: $(GCOV_OBJS)
 	ar rc s21_string_gcov.a $(GCOV_OBJS)
 	rm -f $(GCOV_OBJS)
  
-gcovr_report: gcov
+gcov_report: gcov
 	rm -rf report
 	mkdir report
 	gcovr --html-details -o ./report/report.html --exclude $(test_dir)/test_runner.c
