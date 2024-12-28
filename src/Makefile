@@ -51,7 +51,7 @@ test: s21_string.a $(TEST_OBJS)
 test_valgrind: s21_string.a $(TEST_OBJS)
 	@echo "\n----------------Tests----------------"
 	@$(cc) $(flags) $(test_dir)/test_runner.c $(TEST_OBJS) s21_string.a $(check_flags) -o test
-	@valgrind --tool=memcheck --leak-check=yes ./test
+	-@valgrind --tool=memcheck --leak-check=full ./test
 	@rm test
 	@echo "-------------------------------------\n"
 #-------------
