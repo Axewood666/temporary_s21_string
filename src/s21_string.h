@@ -1,10 +1,8 @@
 #ifndef S21_STRING_H
 #define S21_STRING_H
 
-#define s21_size_t unsigned long  // maybe ll xz
-#define s21_NULL (void *)0        // Null pointer constant.
-// The macro shall expand to an integer constant expression with the value 0
-// cast to type void*
+typedef unsigned long s21_size_t;
+#define s21_NULL (void *)0
 
 s21_size_t s21_strlen(const char *str);
 char *s21_strchr(const char *str, int c);
